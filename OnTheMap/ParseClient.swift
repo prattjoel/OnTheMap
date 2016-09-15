@@ -12,6 +12,7 @@ class ParseClient: NSObject {
     
     //MARK: Shared Session
     let udacityClient = UdacityClient()
+    static var studentInfoResults: [[String: AnyObject]]? = nil
     
     
     

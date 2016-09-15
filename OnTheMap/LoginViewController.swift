@@ -36,6 +36,7 @@ class LoginViewController: UIViewController {
                     self.parseClient.getStudentLocations({ (success, result, error) in
                         if success {
                             print(result)
+                            self.parseClient.studentInfoResults = result
                         } else {
                             performUIUpdatesOnMain() {
                                 self.navigationController?.popToRootViewControllerAnimated(true)

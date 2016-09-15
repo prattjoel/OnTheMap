@@ -17,6 +17,7 @@ class LoginViewController: UIViewController {
     
     
     let udacityClient = UdacityClient()
+    let parseClient = ParseClient()
     
     
     @IBAction func loginButton(sender: AnyObject) {
@@ -32,6 +33,17 @@ class LoginViewController: UIViewController {
                         let controller = self.storyboard!.instantiateViewControllerWithIdentifier("MapViewController") as? MapViewController
                         self.navigationController?.pushViewController(controller!, animated: true)
                     }
+                    self.parseClient.getStudentLocations({ (success, result, error) in
+                        if success {
+                            print(result)
+                        } else {
+                            performUIUpdatesOnMain() {
+                                self.navigationController?.popToRootViewControllerAnimated(true)
+                                self.debugTextView.text = "\(error)"
+                            }
+                        }
+                    })
+                    
                 } else {
                     performUIUpdatesOnMain() {
                         self.debugTextView.text = "\(error)"

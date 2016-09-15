@@ -16,6 +16,7 @@ extension UdacityClient {
         let body = "{\"udacity\": {\"\(username)\": \"account@domain.com\", \"password\": \"\(password)\"}}"
         
         taskForPostMethod(method, parameters: parameters, jsonBody: body) { (result, error) in
+            
             guard (error == nil) else {
                 completionHandlerForLogin(success: false, result: nil, error: error)
                 return

@@ -52,9 +52,8 @@ class ParseClient: NSObject {
                 return
             }
             
-            let newData = data.subdataWithRange(NSMakeRange(5, data.length - 5))
             
-            self.convertDatawithCompletionHandler(newData, completionHandlerForConvertData: completionHandlerForGet)
+            self.convertDatawithCompletionHandler(data, completionHandlerForConvertData: completionHandlerForGet)
             
         }
         task.resume()

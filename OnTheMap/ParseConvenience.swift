@@ -9,29 +9,32 @@
 import Foundation
 
 extension ParseClient {
-    func getStudentLocations(completionHandlerForGetStudentLocations: (result: [[String:AnyObject]]?, error: ErrorType?) -> Void) {
+    func getStudentLocations(completionHandlerForGetStudentLocations: (success: Bool, result: [[String: AnyObject]]?, error: ErrorType?) -> Void) {
+        
         let parameters = [
             StudentLocationParameters.MaxStudentLocations: "100"
         ]
         let method = ""
         
         taskForGetMethod(method, parameters: parameters) { (result, error) in
+            
             guard (error == nil) else {
-                completionHandlerForGetStudentLocations(result: nil, error: error!)
+                completionHandlerForGetStudentLocations(success: false, result: nil, error: error)
                 return
             }
             
+            
             guard let result = result[StudentLocationKeys.LocationResults] as? [[String:AnyObject]] else {
-                completionHandlerForGetStudentLocations(result: nil, error: NSError(domain: "getStudentLocations parsing", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not parse getStudentLocations"]))
+                completionHandlerForGetStudentLocations(success: false, result: nil, error: NSError(domain: "getStudentLocations parsing", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not parse getStudentLocations"]))
                 return
             }
             
 //            guard let studentLocation = result[0] as? [String: AnyObject] else {
-//                completionHandlerForGetStudentLocations(result: nil, error: NSError(domain: "getStudentLocations parsing", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not parse getStudentLocations for session ID"]))
+//                completionHandlerForGetStudentLocations(success: false,result: nil, error: NSError(domain: "getStudentLocations parsing", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not parse getStudentLocations for session ID"]))
 //                return
 //            }
             
-            completionHandlerForGetStudentLocations(result: result, error: nil)
+            completionHandlerForGetStudentLocations(success: true, result: result, error: nil)
             
             
         }

@@ -11,8 +11,8 @@ import Foundation
 class ParseClient: NSObject {
     
     //MARK: Shared Session
-    let udacityClient = UdacityClient()
-    static var studentInfoResults: [[String: AnyObject]]? = nil
+//    let udacityClient = UdacityClient()
+    var studentInfoResults: [StudentInformation]? = nil
     
     
     
@@ -20,46 +20,42 @@ class ParseClient: NSObject {
     func taskForGetMethod(method: String, parameters: [String:AnyObject], completionHandlerForGet: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionTask {
         
         // Build URL, Configure the request
-        let request = NSMutableURLRequest(URL: parseURLFromParameters(parameters, withPathExtension: method))
+        let url = parseURLFromParameters(parameters, withPathExtension: method)
+        let request = requestSetup(url, httpMethod: "GET")
         
-        request.HTTPMethod = "GET"
-        request.addValue("\(Constants.AppID)", forHTTPHeaderField: "X-Parse-Application-Id")
-        request.addValue("\(Constants.RESTApiKey)", forHTTPHeaderField: "X-Parse-REST-API-Key")
-        
-        let session = udacityClient.sharedSession
-        
-        let task = session.dataTaskWithRequest(request) { (data, response, error) in
-            
-            func sendError(error: String) {
-                print(error)
-                let userInfo = [NSLocalizedDescriptionKey : error]
-                completionHandlerForGet(result: nil, error: NSError(domain: "taskForGetMethod", code: 1, userInfo: userInfo))
-            }
-            
-            guard (error == nil) else {
-                sendError("There was an error with your request \(error)")
-                return
-            }
-            
-            /* GUARD: Did we get a successful 2XX response? */
-            guard let statusCode = (response as? NSHTTPURLResponse)?.statusCode where statusCode >= 200 && statusCode <= 299 else {
-                sendError("Your request returned a status code other than 2xx!")
-                return
-            }
-            
-            /* GUARD: Was there any data returned? */
-            guard let data = data else {
-                sendError("No data was returned by the request!")
-                return
-            }
-            
-            
-            self.convertDatawithCompletionHandler(data, completionHandlerForConvertData: completionHandlerForGet)
-            
-        }
+        let task = taskSetup(request, domain: "taskForGetMethod", completionHandler: completionHandlerForGet)
+
         task.resume()
         return task
         
+    }
+    
+    
+    //MARK: POST
+    func taskForPostMethod(method: String, parameters: [String: AnyObject], jsonBody: String, completionHandlerForPost: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionTask {
+        
+        let url = parseURLFromParameters(parameters, withPathExtension: method)
+        let request = requestSetup(url, httpMethod: "POST")
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.HTTPBody = jsonBody.dataUsingEncoding(NSUTF8StringEncoding)
+        let task = taskSetup(request, domain: "taskForPostMethod", completionHandler: completionHandlerForPost)
+        
+        task.resume()
+        return task
+        
+    }
+    
+    func taskForPutMethod(method:String, paramaters: [String: AnyObject], jsonBody: String, completionHandlerForPut: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionTask {
+        let url = parseURLFromParameters(paramaters, withPathExtension: method)
+        print(url)
+        let request = requestSetup(url, httpMethod: "PUT")
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.HTTPBody = jsonBody.dataUsingEncoding(NSUTF8StringEncoding)
+        print(request)
+        let task = taskSetup(request, domain: "taskForPutMethod", completionHandler: completionHandlerForPut)
+        
+        task.resume()
+        return task
     }
 
     
@@ -76,7 +72,7 @@ class ParseClient: NSObject {
         
     }
     
-    // create URL from paramaters
+    // Create URL from paramaters
     
     private func parseURLFromParameters(parameters: [String: AnyObject], withPathExtension: String? = nil) -> NSURL {
         
@@ -93,4 +89,70 @@ class ParseClient: NSObject {
         
         return components.URL!
     }
+    
+    // Check for errors when making request
+    private func checkErrors(domain: String, data: NSData?, error: NSError?, response: NSURLResponse?, completionHandler: (result: AnyObject!, error: NSError?) -> Void) {
+        
+        func sendError(error: String) {
+            print(error)
+            let userInfo = [NSLocalizedDescriptionKey : error]
+            completionHandler(result: nil, error: NSError(domain: domain, code: 1, userInfo: userInfo))
+        }
+        
+        guard (error == nil) else {
+            sendError("There was an error with your request \(error)")
+            return
+        }
+        
+        /* GUARD: Did we get a successful 2XX response? */
+        guard let statusCode = (response as? NSHTTPURLResponse)?.statusCode where statusCode >= 200 && statusCode <= 299 else {
+            sendError("Your request returned a status code other than 2xx!")
+            return
+        }
+        
+        /* GUARD: Was there any data returned? */
+        guard let data = data else {
+            sendError("No data was returned by the request!")
+            return
+        }
+        
+        self.convertDatawithCompletionHandler(data, completionHandlerForConvertData: completionHandler)
+
+        
+        
+    }
+    
+    
+    // Setup URL for requests
+    private func requestSetup(url: NSURL, httpMethod: String) -> NSMutableURLRequest {
+        
+        let request = NSMutableURLRequest(URL: url)
+        
+        request.HTTPMethod = httpMethod
+        request.addValue("\(Constants.AppID)", forHTTPHeaderField: "X-Parse-Application-Id")
+        request.addValue("\(Constants.RESTApiKey)", forHTTPHeaderField: "X-Parse-REST-API-Key")
+        
+        return request
+    }
+    
+    // Setup tasks for request
+    private func taskSetup(request: NSURLRequest, domain: String, completionHandler: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionDataTask{
+        let session = UdacityClient.sharedInstance().sharedSession
+        
+        let task = session.dataTaskWithRequest(request) { (data, response, error) in
+            
+            self.checkErrors(domain, data: data, error: error, response: response, completionHandler: completionHandler)
+            
+            
+        }
+        return task
+    }
+    
+    class func sharedInstance() -> ParseClient {
+        struct Singleton {
+            static var sharedInstance = ParseClient()
+        }
+        return Singleton.sharedInstance
+    }
+    
 }

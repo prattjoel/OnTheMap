@@ -14,7 +14,7 @@ struct StudentInformation {
     let latitude: Double
     let longitude: Double
     let mapString: String
-    let mediaURL: String
+    let mediaURL: String?
     let objectID: String
     let uniqueKey: String
     
@@ -24,7 +24,7 @@ struct StudentInformation {
         latitude = dictionary[ParseClient.StudentLocationKeys.Latitude] as! Double
         longitude = dictionary[ParseClient.StudentLocationKeys.Longitude] as! Double
         mapString = dictionary[ParseClient.StudentLocationKeys.MapString] as! String
-        mediaURL = dictionary[ParseClient.StudentLocationKeys.MediaURL] as! String
+        mediaURL = dictionary[ParseClient.StudentLocationKeys.MediaURL] as? String
         objectID = dictionary[ParseClient.StudentLocationKeys.ObjectID] as! String
         uniqueKey = dictionary[ParseClient.StudentLocationKeys.UniqueKey] as! String
     }

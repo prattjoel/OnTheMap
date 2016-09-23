@@ -16,34 +16,26 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var loginButton: UIButton!
     
     
-    let udacityClient = UdacityClient()
-    let parseClient = ParseClient()
+//    let udacityClient = UdacityClient()
+//    let parseClient = ParseClient()
+//    let mapController = MapViewController()
     
     
     @IBAction func loginButton(sender: AnyObject) {
         
         if usernameTextField != "" && passwordTextField != "" {
-            udacityClient.loginRequest(usernameTextField.text!, password: passwordTextField.text!) { (success, result, error) in
+            UdacityClient.sharedInstance().loginRequest(usernameTextField.text!, password: passwordTextField.text!) { (success, result, error) in
                 
                 print(result)
                 if success {
-                    self.udacityClient.sessionID = result
-                    print("Sesion ID: \(self.udacityClient.sessionID)")
-                    performUIUpdatesOnMain() {
-                        let controller = self.storyboard!.instantiateViewControllerWithIdentifier("MapViewController") as? MapViewController
-                        self.navigationController?.pushViewController(controller!, animated: true)
-                    }
-                    self.parseClient.getStudentLocations({ (success, result, error) in
-                        if success {
-                            print(result)
-                            self.parseClient.studentInfoResults = result
-                        } else {
+                    print(result)
+//                    self.udacityClient.sessionID = result
+//                    print("Sesion ID: \(self.udacityClient.sessionID)")
                             performUIUpdatesOnMain() {
-                                self.navigationController?.popToRootViewControllerAnimated(true)
-                                self.debugTextView.text = "\(error)"
+                                let controller = self.storyboard!.instantiateViewControllerWithIdentifier("tabBarController") as? UITabBarController
+                                self.navigationController?.pushViewController(controller!, animated: true)
                             }
-                        }
-                    })
+                        
                     
                 } else {
                     performUIUpdatesOnMain() {

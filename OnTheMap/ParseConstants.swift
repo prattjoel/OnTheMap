@@ -15,7 +15,7 @@ extension ParseClient {
     //MARK: URLS
         static let ApiScheme = "https"
         static let ApiHost = "parse.udacity.com"
-        static let ApiPath = "/parse/classes/StudentLocation"
+        static let ApiPath = "/parse/classes/StudentLocation/"
         static let StudentLocationURL = "https://parse.udacity.com/parse/classes/StudentLocation"
     }
     
@@ -45,5 +45,6 @@ extension ParseClient {
         static let Skip = "skip"
         static let ChangeListOrder = "order"
         static let ObjectID = "objectId"
+        static let singleStudent = "where"
     }
 }

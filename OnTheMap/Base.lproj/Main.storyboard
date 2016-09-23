@@ -34,12 +34,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="EPa-0C-4R8">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Username" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="EPa-0C-4R8">
                                 <rect key="frame" x="20" y="329" width="560" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Prb-nt-93U">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Prb-nt-93U">
                                 <rect key="frame" x="20" y="367" width="560" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
@@ -54,6 +54,10 @@
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="fnl-gn-rWr" userLabel="Debug Text View">
                                 <rect key="frame" x="180" y="457" width="240" height="84"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="240" id="NMd-MR-jAW"/>
+                                    <constraint firstAttribute="height" constant="84" id="Yrn-Oa-e12"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
@@ -62,14 +66,12 @@
                         <constraints>
                             <constraint firstAttribute="trailingMargin" secondItem="DOx-DK-idm" secondAttribute="trailing" id="1Co-Q4-bkH"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Prb-nt-93U" secondAttribute="trailing" id="9Re-4l-bcR"/>
-                            <constraint firstItem="fnl-gn-rWr" firstAttribute="top" secondItem="DOx-DK-idm" secondAttribute="bottom" constant="22" id="NDB-nG-ulC"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="fnl-gn-rWr" secondAttribute="trailing" constant="160" id="ScZ-LN-Hno"/>
                             <constraint firstItem="Prb-nt-93U" firstAttribute="top" secondItem="EPa-0C-4R8" secondAttribute="bottom" constant="8" id="Sgz-Kc-ijT"/>
-                            <constraint firstItem="fnl-gn-rWr" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="160" id="TmD-ps-4SS"/>
                             <constraint firstItem="DOx-DK-idm" firstAttribute="top" secondItem="Prb-nt-93U" secondAttribute="bottom" constant="8" id="WwB-x6-nug"/>
+                            <constraint firstItem="fnl-gn-rWr" firstAttribute="top" secondItem="DOx-DK-idm" secondAttribute="bottom" constant="22" id="WwQ-UT-g6H"/>
                             <constraint firstItem="DOx-DK-idm" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="f2j-dC-m5p"/>
                             <constraint firstItem="EPa-0C-4R8" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="ged-fg-OrD"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="fnl-gn-rWr" secondAttribute="bottom" constant="59" id="gi4-5s-uph"/>
+                            <constraint firstItem="fnl-gn-rWr" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="mPV-v7-7hi"/>
                             <constraint firstAttribute="trailingMargin" secondItem="EPa-0C-4R8" secondAttribute="trailing" id="ptn-kv-nam"/>
                             <constraint firstItem="EPa-0C-4R8" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="265" id="sMm-Yx-cvh"/>
                             <constraint firstItem="Prb-nt-93U" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="thD-bT-sVz"/>
@@ -215,19 +217,19 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="URL" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DaL-vK-CtJ">
                                 <rect key="frame" x="20" y="221" width="33" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Last Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="P2b-FI-9eB">
                                 <rect key="frame" x="21" y="156" width="82" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="First Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mjn-UC-fCJ">
                                 <rect key="frame" x="20" y="95" width="83" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="aPU-r4-qc4">
@@ -251,7 +253,7 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Location" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f3y-a2-tWn">
                                 <rect key="frame" x="21" y="289" width="66" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>

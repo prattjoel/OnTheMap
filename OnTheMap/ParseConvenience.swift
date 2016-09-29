@@ -32,9 +32,12 @@ extension ParseClient {
                 return
             }
             
-            let studentLocations = StudentInformation.studentLocationsFromResults(result)
+            print("\n Results before added to Student Struct: \(result)")
             
-            completionHandlerForGetStudentLocations(success: true, result: studentLocations, error: nil)
+            let studentLocations = StudentInformation.studentLocationsFromResults(result)
+            print("\n Results after added to Student Struct: \n \(studentLocations)")
+            
+            completionHandlerForGetStudentLocations(success: false, result: nil, error: nil)
             
             
         }

@@ -22,6 +22,8 @@ extension UdacityClient {
                 return
             }
             
+            print(result)
+            
             guard let result = result[UdacityClient.ResponseKeys.SessionInfo] as? [String:AnyObject] else {
                 completionHandlerForLogin(success: false, result: nil, error: NSError(domain: "loginRequest parsing", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not parse loginRequest"]))
                 return
@@ -35,6 +37,25 @@ extension UdacityClient {
             completionHandlerForLogin(success: true, result: id, error: nil)
             print("ID: \(id)")
             
+        }
+    }
+    
+    func logoutRequest (completionHandlerForLogout: (success: Bool, result: [String: AnyObject]?, error: NSError?) -> Void) {
+        let parameters = [String:AnyObject]()
+        let method = UdacityClient.Methods.Session
+        
+        taskForDELETMethod(method, parameters: parameters) { (result, error) in
+            guard (error == nil) else {
+                completionHandlerForLogout(success: false, result: nil, error: error)
+                return
+            }
+            
+            guard let result = result[UdacityClient.ResponseKeys.SessionInfo] as? [String: AnyObject] else {
+                completionHandlerForLogout(success: false, result: nil, error: NSError(domain: "logoutRequest parsing", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not parse logoutRequest"]))
+                return
+            }
+            
+            completionHandlerForLogout(success: true, result: result, error: nil)
         }
     }
     

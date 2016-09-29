@@ -9,20 +9,20 @@
         <!--Navigation Controller-->
         <scene sceneID="sbF-Ku-xby">
             <objects>
-                <navigationController id="9Go-4P-mDx" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="NavController" id="9Go-4P-mDx" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="IsX-Ft-GwS">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="ilG-l1-jJY"/>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="jzr-mG-wtc"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="puH-km-qlL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2872" y="1322"/>
+            <point key="canvasLocation" x="-3238" y="1315"/>
         </scene>
-        <!--Login View Controller-->
+        <!--Login-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="LoginViewController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
@@ -77,7 +77,7 @@
                             <constraint firstItem="Prb-nt-93U" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="thD-bT-sVz"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="eJu-MO-uze"/>
+                    <navigationItem key="navigationItem" title="Login" id="sxd-H1-h6Z"/>
                     <connections>
                         <outlet property="debugTextView" destination="fnl-gn-rWr" id="L5b-HB-yDV"/>
                         <outlet property="loginButton" destination="DOx-DK-idm" id="5WP-dW-fgi"/>
@@ -87,7 +87,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1732" y="1322"/>
+            <point key="canvasLocation" x="-1890" y="1322"/>
         </scene>
         <!--Map View-->
         <scene sceneID="xba-7R-8oQ">
@@ -143,7 +143,7 @@
             </objects>
             <point key="canvasLocation" x="567" y="830"/>
         </scene>
-        <!--Table View-->
+        <!--Students-->
         <scene sceneID="j9o-x6-qZn">
             <objects>
                 <tableViewController id="tSU-If-r7O" customClass="StudentsTableViewController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
@@ -167,15 +167,23 @@
                         </connections>
                     </tableView>
                     <tabBarItem key="tabBarItem" title="Table View" id="IW1-vq-AZs"/>
+                    <navigationItem key="navigationItem" title="Students" id="m91-Gv-3mx"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6hU-mx-v5Z" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="504" y="1837"/>
         </scene>
-        <!--Tab Bar Controller-->
+        <!--Student Locations-->
         <scene sceneID="FrZ-v7-ObV">
             <objects>
-                <tabBarController storyboardIdentifier="tabBarController" id="Hrw-Er-RiB" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="tabBarController" id="Hrw-Er-RiB" customClass="TabBarViewController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" title="Student Locations" id="FCb-tA-jqz">
+                        <barButtonItem key="leftBarButtonItem" title="Logout" id="uEa-L7-0NL">
+                            <connections>
+                                <action selector="logoutOfUdacity:" destination="Hrw-Er-RiB" id="AJJ-dg-dCl"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="0Fj-i0-m1s">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -188,7 +196,7 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="idL-sH-K87" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-722" y="1322"/>
+            <point key="canvasLocation" x="-588" y="1315"/>
         </scene>
         <!--Info Posting View Controller-->
         <scene sceneID="xyW-cc-AsN">

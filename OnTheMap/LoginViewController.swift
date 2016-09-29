@@ -23,100 +23,49 @@ class LoginViewController: UIViewController {
     
     @IBAction func loginButton(sender: AnyObject) {
         
-        if usernameTextField != "" && passwordTextField != "" {
+        
+        
+        
+        
+        if usernameTextField.text != "" && passwordTextField.text != "" {
             UdacityClient.sharedInstance().loginRequest(usernameTextField.text!, password: passwordTextField.text!) { (success, result, error) in
                 
                 print(result)
                 if success {
                     print(result)
-//                    self.udacityClient.sessionID = result
-//                    print("Sesion ID: \(self.udacityClient.sessionID)")
-                            performUIUpdatesOnMain() {
-                                let controller = self.storyboard!.instantiateViewControllerWithIdentifier("tabBarController") as? UITabBarController
-                                self.navigationController?.pushViewController(controller!, animated: true)
-                            }
-                        
+                    performUIUpdatesOnMain() {
+                        self.usernameTextField.text = ""
+                        self.passwordTextField.text = ""
+                        let controller = self.storyboard!.instantiateViewControllerWithIdentifier("tabBarController") as! UITabBarController
+                        self.navigationController?.pushViewController(controller, animated: true)
+                    }
                     
                 } else {
                     performUIUpdatesOnMain() {
-                        self.debugTextView.text = "\(error)"
+                        self.presentAlertContoller("Login unsuccessful")
+                        print("\(error)")
                     }
                     
                 }
             }
         } else {
-            debugTextView.text = "please enter user name and password"
+            self.presentAlertContoller("Please enter username and password")
         }
     }
     
-//    func loginRequest (username: String, password: String) {
-//        let methodParameters = [String:AnyObject]()
-//        
-//        let request = NSMutableURLRequest(URL: udacityClient.udacityURLFromParameters(methodParameters, withPathExtension: UdacityClient.Methods.Session))
-//        
-//        request.HTTPMethod = "POST"
-//        request.addValue("application/json", forHTTPHeaderField: "Accept")
-//        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-//        request.HTTPBody = "{\"udacity\": {\"\(username)\": \"account@domain.com\", \"password\": \"\(password)\"}}".dataUsingEncoding(NSUTF8StringEncoding)
-//        let session = udacityClient.sharedSession
-//        
-//        let task = session.dataTaskWithRequest(request) { (data, response, error) in
-//            
-//            func displayError(error: String) {
-//                print(error)
-//                performUIUpdatesOnMain {
-//                    self.setUIEnabled(true)
-//                    self.debugTextView.text = "Login Failed (Request Token)."
-//                }
-//            }
-//            
-//            guard (error == nil) else {
-//                displayError("There was an error with your request \(error)")
-//                return
-//            }
-//            
-//            /* GUARD: Did we get a successful 2XX response? */
-//            guard let statusCode = (response as? NSHTTPURLResponse)?.statusCode where statusCode >= 200 && statusCode <= 299 else {
-//                displayError("Your request returned a status code other than 2xx!")
-//                return
-//            }
-//            
-//            /* GUARD: Was there any data returned? */
-//            guard let data = data else {
-//                displayError("No data was returned by the request!")
-//                return
-//            }
-//            
-//            let newData = data.subdataWithRange(NSMakeRange(5, data.length - 5))
-//
-//            
-//            /* 5. Parse the data */
-//            let parsedResult: AnyObject!
-//            do {
-//                parsedResult = try NSJSONSerialization.JSONObjectWithData(newData, options: .AllowFragments)
-//            } catch {
-//                displayError("Could not parse the data as JSON: '\(data)'")
-//                return
-//            }
-//            
-//            guard let sessionInfo = parsedResult[UdacityClient.ResponseKeys.SessionInfo] as? [String: AnyObject] else {
-//                displayError("could not find key \(parsedResult[UdacityClient.ResponseKeys.SessionInfo]) in \(parsedResult)")
-//                return
-//            }
-//
-//            print(sessionInfo)
-//            
-//            guard let sessionID = sessionInfo[UdacityClient.ResponseKeys.ID] as? String else {
-//                displayError("could not find key \(sessionInfo[UdacityClient.ResponseKeys.ID]) in \(sessionInfo)")
-//                return
-//            }
-//            print("\(sessionID)")
-//            
-//            self.sessionID = "\(sessionID)"
-//            
-//        }
-//        task.resume()
-//    }
+    func presentAlertContoller(message: String) {
+        let alertContoller = UIAlertController(title: "Unable to Login", message: message, preferredStyle: .Alert)
+        let okAction = UIAlertAction(title: "OK", style: .Default, handler: {
+            action in
+            
+            self.dismissViewControllerAnimated(true, completion: nil)
+        })
+        
+        alertContoller.addAction(okAction)
+        
+        presentViewController(alertContoller, animated: true, completion: nil)
+        
+    }
     
     // Set UI
     private func setUIEnabled(enabled: Bool) {

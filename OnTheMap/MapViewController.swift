@@ -24,25 +24,29 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationController?.navigationBar.translucent = false
+//        self.navigationController?.navigationBar.translucent = false
+//        
+//        let logOutButton: UIBarButtonItem = UIBarButtonItem(title: "Logout", style: .Plain, target: self, action: #selector(self.logOutFromUdacity))
+//        
+//        navigationItem.leftBarButtonItem = logOutButton
         
         ParseClient.sharedInstance().getStudentLocations({ (success, result, error) in
             if success {
-                if let studentInforesult = result{
+                if let studentInforesult = result {
                     
                     
-                    dispatch_async(dispatch_get_main_queue(),{ 
-                        StudentInformationStore.sharedInstance.studentInformationCollection = studentInforesult
-//                        print("\(StudentInformationStore.sharedInstance.studentInformationCollection)")
-                    })
+                    
+                    StudentInformationStore.sharedInstance.studentInformationCollection = studentInforesult
+                    print("\(StudentInformationStore.sharedInstance.studentInformationCollection)")
+                    
                     
                     
                     var annotations = [MKPointAnnotation]()
                     
                     for studentLocation in studentInforesult {
                         
-                        let lat = CLLocationDegrees(studentLocation.latitude)
-                        let long = CLLocationDegrees(studentLocation.longitude)
+                        let lat = CLLocationDegrees(studentLocation.latitude!)
+                        let long = CLLocationDegrees(studentLocation.longitude!)
                         let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: long)
                         let first = studentLocation.firstName
                         let last = studentLocation.lastName
@@ -61,12 +65,14 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                         self.mapView.addAnnotations(annotations)
                     }
                 } else {
-                    print("no results found")
+                    performUIUpdatesOnMain({ 
+                        self.presentAlertContoller("Could not find student locations")
+                    })
+                    
                 }
             } else {
                 performUIUpdatesOnMain() {
-                    self.navigationController?.popToRootViewControllerAnimated(true)
-                    self.loginView.debugTextView.text = "\(error)"
+                    self.presentAlertContoller("Could not load student locations")
                 }
             }
         })
@@ -81,35 +87,6 @@ class MapViewController: UIViewController, MKMapViewDelegate {
 //        print(self.mapView.annotations)
         
     }
-    
-//    func populateMap(studentInfo: [StudentInformation]) {
-//        let studentInformation = studentInfo
-//        
-//        
-//        for studentLocation in studentInformation {
-//            
-//            let lat = CLLocationDegrees(studentLocation.latitude)
-//            let long = CLLocationDegrees(studentLocation.longitude)
-//            let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: long)
-//            let first = studentLocation.firstName
-//            let last = studentLocation.lastName
-//            let mediaURL = studentLocation.mediaURL
-//            
-//            let annotation = MKPointAnnotation()
-//            annotation.coordinate = coordinate
-//            annotation.title = "\(first) \(last)"
-//            annotation.subtitle = mediaURL
-//            
-////            print(studentLocation)
-////            print(annotation.coordinate)
-//            
-//            annotations.append(annotation)
-//            
-//            
-//        }
-//        print(annotations)
-//
-//    }
     
     
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
@@ -140,5 +117,18 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         }
     }
     
+    func presentAlertContoller(message: String) {
+        let alertContoller = UIAlertController(title: "No Student Locations", message: message, preferredStyle: .Alert)
+        let okAction = UIAlertAction(title: "OK", style: .Default, handler: {
+            action in
+            
+            self.dismissViewControllerAnimated(true, completion: nil)
+        })
+        
+        alertContoller.addAction(okAction)
+        
+        presentViewController(alertContoller, animated: true, completion: nil)
+        
+    }
     
 }

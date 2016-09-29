@@ -16,10 +16,19 @@ class StudentsTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
+        
+//        let logOutButton: UIBarButtonItem = UIBarButtonItem(title: "Logout", style: .Plain, target: self, action: #selector(self.logOutFromUdacity))
+//        
+//        navigationItem.leftBarButtonItem = logOutButton
+        
     }
+    
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         print("the number of students is: \(StudentInformationStore.sharedInstance.studentInformationCollection.count)")
+        if StudentInformationStore.sharedInstance.studentInformationCollection.count == 0 {
+            presentAlertContoller("Could not find student locations")
+        }
         return StudentInformationStore.sharedInstance.studentInformationCollection.count
     }
     
@@ -53,4 +62,21 @@ class StudentsTableViewController: UITableViewController {
         }
     }
     
+    func presentAlertContoller(message: String) {
+        let alertContoller = UIAlertController(title: "No Student Locations", message: message, preferredStyle: .Alert)
+        let okAction = UIAlertAction(title: "OK", style: .Default, handler: {
+            action in
+            
+            self.dismissViewControllerAnimated(true, completion: nil)
+        })
+        
+        alertContoller.addAction(okAction)
+        
+        presentViewController(alertContoller, animated: true, completion: nil)
+        
+    }
+    
+//    func logOutFromUdacity() {
+//        dismissViewControllerAnimated(true, completion: nil)
+//    }
 }

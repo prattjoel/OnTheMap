@@ -37,7 +37,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                     
                     
                     StudentInformationStore.sharedInstance.studentInformationCollection = studentInforesult
-                    print("\(StudentInformationStore.sharedInstance.studentInformationCollection)")
+//                    print("\(StudentInformationStore.sharedInstance.studentInformationCollection)")
                     
                     
                     

@@ -47,7 +47,7 @@ class ParseClient: NSObject {
     
     func taskForPutMethod(method:String, paramaters: [String: AnyObject], jsonBody: String, completionHandlerForPut: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionTask {
         let url = parseURLFromParameters(paramaters, withPathExtension: method)
-        print(url)
+//        print(url)
         let request = requestSetup(url, httpMethod: "PUT")
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.HTTPBody = jsonBody.dataUsingEncoding(NSUTF8StringEncoding)

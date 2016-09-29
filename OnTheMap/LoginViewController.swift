@@ -30,9 +30,9 @@ class LoginViewController: UIViewController {
         if usernameTextField.text != "" && passwordTextField.text != "" {
             UdacityClient.sharedInstance().loginRequest(usernameTextField.text!, password: passwordTextField.text!) { (success, result, error) in
                 
-                print(result)
+//                print(result)
                 if success {
-                    print(result)
+//                    print(result)
                     performUIUpdatesOnMain() {
                         self.usernameTextField.text = ""
                         self.passwordTextField.text = ""

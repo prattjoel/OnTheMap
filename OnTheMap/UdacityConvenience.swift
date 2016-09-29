@@ -22,7 +22,7 @@ extension UdacityClient {
                 return
             }
             
-            print(result)
+//            print(result)
             
             guard let result = result[UdacityClient.ResponseKeys.SessionInfo] as? [String:AnyObject] else {
                 completionHandlerForLogin(success: false, result: nil, error: NSError(domain: "loginRequest parsing", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not parse loginRequest"]))
@@ -35,7 +35,7 @@ extension UdacityClient {
             }
             
             completionHandlerForLogin(success: true, result: id, error: nil)
-            print("ID: \(id)")
+//            print("ID: \(id)")
             
         }
     }

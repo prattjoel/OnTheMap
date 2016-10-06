@@ -12,7 +12,7 @@ extension UdacityClient {
         
         //MARK: URLs
         static let ApiScheme = "https"
-        static let ApiHost = "udacity.com"
+        static let ApiHost = "www.udacity.com"
         static let ApiPath = "/api"
     }
     
@@ -34,7 +34,10 @@ extension UdacityClient {
         static let SessionInfo = "session"
         static let AccountInfo = "account"
         static let RegistrationStatus = "registered"
-        static let UserCredential = "key"
+        static let UserKey = "key"
+        static let User = "user"
+        static let FirstName = "first_name"
+        static let LastName = "last_name"
     }
     
 }

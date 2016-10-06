@@ -27,7 +27,7 @@ class LoginViewController: UIViewController {
         
         
         if usernameTextField.text != "" && passwordTextField.text != "" {
-            UdacityClient.sharedInstance().loginRequest(usernameTextField.text!, password: passwordTextField.text!) { (success, result, error) in
+            UdacityClient.sharedInstance().getCurrentUser(usernameTextField.text!, password: passwordTextField.text!, completionHandlerForGetCurrentUser: { (success, result, error) in
                 
 //                print(result)
                 if success {
@@ -41,12 +41,22 @@ class LoginViewController: UIViewController {
                     
                 } else {
                     performUIUpdatesOnMain() {
-                        self.presentAlertContoller("Login unsuccessful")
-                        print("\(error)")
+                        
+                        let code = error?.localizedDescription
+                        if let statusCode = code {
+                        print("localized description: \n \(statusCode)")
+                        if statusCode == "403" {
+                            self.presentAlertContoller("Login credentials invalid")
+                        
+                        } else {
+                            self.presentAlertContoller("Error logging in")
+                            print("login controller: \n \(error)")
+                            }
+                        }
                     }
                     
                 }
-            }
+            })
         } else {
             self.presentAlertContoller("Please enter username and password")
         }

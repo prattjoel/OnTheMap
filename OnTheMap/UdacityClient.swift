@@ -19,6 +19,8 @@ class UdacityClient: NSObject {
         
         let url = udacityURLFromParameters(parameters, withPathExtension: method)
         let request = requestSetup(url, httpMethod: "Get")
+//        request.addValue("application/json", forHTTPHeaderField: "Accept")
+//        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         
         let task = taskSetup(request, domain: "taskForGetMethod", completionHandler: completionHandlerForGET)
         task.resume()
@@ -28,20 +30,23 @@ class UdacityClient: NSObject {
     }
     
     //MARK: - POST
-    func taskForPostMethod(method: String, parameters: [String:AnyObject], jsonBody: String, completionHandlerForPOST: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionTask {
+    func taskForPostMethod(method: String, parameters: [String:AnyObject]?, jsonBody: String, completionHandlerForPOST: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionTask {
         
         let url = udacityURLFromParameters(parameters, withPathExtension: method)
+//        print("url for login:\n \(url)")
         let request = requestSetup(url, httpMethod: "POST")
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.HTTPBody = jsonBody.dataUsingEncoding(NSUTF8StringEncoding)
+//        print("\n request htttp method in taskForPostMethod is: \n \(request.HTTPMethod)")
         
+//        print("request for login: \n \(request)")
         
         let task = taskSetup(request, domain: "taskForPostMethod", completionHandler: completionHandlerForPOST)
         task.resume()
         
         return task
-          
+        
     }
     
     //MARK: - DELETE
@@ -72,17 +77,20 @@ class UdacityClient: NSObject {
     
     // MARK: - Create URL, Check Errors and Setup Request
     
-    private func udacityURLFromParameters(parameters: [String: AnyObject], withPathExtension: String? = nil) -> NSURL {
+    private func udacityURLFromParameters(parameters: [String: AnyObject]?, withPathExtension: String? = nil) -> NSURL {
         
         let components = NSURLComponents()
         components.scheme = Constants.ApiScheme
         components.host = Constants.ApiHost
         components.path = Constants.ApiPath + (withPathExtension ?? "")
-        components.queryItems = [NSURLQueryItem]()
         
-        for (key, value) in parameters {
-            let queryItem = NSURLQueryItem(name: key, value: "\(value)")
-            components.queryItems!.append(queryItem)
+        
+        if let params = parameters {
+            components.queryItems = [NSURLQueryItem]()
+            for (key, value) in params {
+                let queryItem = NSURLQueryItem(name: key, value: "\(value)")
+                components.queryItems!.append(queryItem)
+            }
         }
         
         return components.URL!
@@ -93,7 +101,7 @@ class UdacityClient: NSObject {
     private func checkErrors(domain: String, data: NSData?, error: NSError?, response: NSURLResponse?, completionHandler: (result: AnyObject!, error: NSError?) -> Void) {
         
         func sendError(error: String) {
-            print(error)
+            //            print("sendError method: \n \(error)")
             let userInfo = [NSLocalizedDescriptionKey : error]
             completionHandler(result: nil, error: NSError(domain: domain, code: 1, userInfo: userInfo))
         }
@@ -105,18 +113,28 @@ class UdacityClient: NSObject {
         
         /* GUARD: Did we get a successful 2XX response? */
         guard let statusCode = (response as? NSHTTPURLResponse)?.statusCode where statusCode >= 200 && statusCode <= 299 else {
-            sendError("Your request returned a status code other than 2xx!")
+            let statCode = (response as? NSHTTPURLResponse)?.statusCode
+            if let code = statCode {
+                if code == 403 {
+                    sendError("\(code)")
+                } else {
+                    sendError("Status code error check: \n Your request returned a status code other than 2xx!: \n \(code)")
+                }
+            }
+            
             return
         }
-//        print(response)
+//        print("Response from login: \n \(response)")
         
-        print("Status code: \(statusCode)")
+//        print("Status code: \(statusCode)")
         
         /* GUARD: Was there any data returned? */
         guard let data = data else {
             sendError("No data was returned by the request!")
             return
         }
+        
+        //        print("response before serialization: \n \(data)")
         
         let newData = data.subdataWithRange(NSMakeRange(5, data.length - 5))
         
@@ -130,6 +148,7 @@ class UdacityClient: NSObject {
         var parsedResult: AnyObject!
         do {
             parsedResult = try NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments)
+            
         } catch {
             let userInfo = [NSLocalizedDescriptionKey : "Could not parse the data as JSON: '\(data)'"]
             completionHandlerForConvertData(result: nil, error: NSError(domain: "convertDatawithCompletionHandler", code: 1, userInfo: userInfo))
@@ -145,6 +164,7 @@ class UdacityClient: NSObject {
         
         let request = NSMutableURLRequest(URL: url)
         request.HTTPMethod = httpMethod
+//        print("\n request htttp method is: \n \(request.HTTPMethod)")
         
         return request
     }
@@ -161,7 +181,7 @@ class UdacityClient: NSObject {
         }
         return task
     }
-
+    
     
     class func sharedInstance() -> UdacityClient {
         struct Singleton {

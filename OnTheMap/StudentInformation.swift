@@ -9,14 +9,15 @@
 import Foundation
 struct StudentInformation {
     
-    let firstName: String
-    let lastName: String
+    var firstName: String
+    var lastName: String
     var latitude: Double?
     var longitude: Double?
     let mapString: String?
     let mediaURL: String?
     let objectID: String
     let uniqueKey: String
+    var userKey: String?
     
     init(dictionary: [String: AnyObject]) {
         firstName = dictionary[ParseClient.StudentLocationKeys.FirstName] as! String
@@ -39,6 +40,11 @@ struct StudentInformation {
         mediaURL = dictionary[ParseClient.StudentLocationKeys.MediaURL] as? String
         objectID = dictionary[ParseClient.StudentLocationKeys.ObjectID] as! String
         uniqueKey = dictionary[ParseClient.StudentLocationKeys.UniqueKey] as! String
+        if let key = dictionary[UdacityClient.ResponseKeys.UserKey] {
+            userKey = key as? String
+        } else {
+            userKey = nil
+        }
     }
     
     static func studentLocationsFromResults(results: [[String: AnyObject]]) -> [StudentInformation] {
@@ -49,5 +55,18 @@ struct StudentInformation {
         }
         
         return locations
+    }
+    
+    // Set the Current User
+    func userFromResults(results: [String: AnyObject]) -> StudentInformation {
+        
+        var currentStudent = StudentInformation(dictionary: results)
+        
+        currentStudent.firstName = results[UdacityClient.ResponseKeys.FirstName] as! String
+        currentStudent.lastName = results[UdacityClient.ResponseKeys.LastName] as! String
+        currentStudent.userKey = results[UdacityClient.ResponseKeys.UserKey] as? String
+        
+        return currentStudent
+        
     }
 }

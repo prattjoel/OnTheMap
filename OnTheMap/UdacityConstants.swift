@@ -19,6 +19,7 @@ extension UdacityClient {
     //MARK: Methods
     struct Methods {
         static let Session = "/session"
+        static let UserID = "/users"
     }
     
     //MARK: Parameter Keys
@@ -31,6 +32,9 @@ extension UdacityClient {
     struct ResponseKeys {
         static let ID = "id"
         static let SessionInfo = "session"
+        static let AccountInfo = "account"
+        static let RegistrationStatus = "registered"
+        static let UserCredential = "key"
     }
     
 }

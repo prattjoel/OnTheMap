@@ -7,8 +7,15 @@
 //
 
 import Foundation
+import MapKit
 
 class StudentInformationStore {
+    
+    static var currentStudent: StudentInformation?
+    static var currentStudentRegion: MKCoordinateRegion?
+    
     var studentInformationCollection = [StudentInformation]()
     static let sharedInstance = StudentInformationStore()
+    
+//    func setCurrentStudent(firstName first: String, lastName last: String, latitude lat: Double, longitude long: Double)
 }

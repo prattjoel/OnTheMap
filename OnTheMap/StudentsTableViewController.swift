@@ -10,22 +10,15 @@
 import UIKit
 
 class StudentsTableViewController: UITableViewController {
-    
-//    var studentCollection = StudentInformationStore.sharedInstance.studentInformationCollection
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
-        
-//        let logOutButton: UIBarButtonItem = UIBarButtonItem(title: "Logout", style: .Plain, target: self, action: #selector(self.logOutFromUdacity))
-//        
-//        navigationItem.leftBarButtonItem = logOutButton
         
     }
     
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print("the number of students is: \(StudentInformationStore.sharedInstance.studentInformationCollection.count)")
         if StudentInformationStore.sharedInstance.studentInformationCollection.count == 0 {
             presentAlertContoller("Could not find student locations")
         }
@@ -46,8 +39,7 @@ class StudentsTableViewController: UITableViewController {
         if let urlString = item.mediaURL {
             print(urlString)
             let app = UIApplication.sharedApplication()
-            
-//            let url = NSURL(string: urlString)
+
             if urlString.hasPrefix("http://") || urlString.hasPrefix("https://") {
                 let url = NSURL(string: urlString)
                 app.openURL(url!)
@@ -75,8 +67,4 @@ class StudentsTableViewController: UITableViewController {
         presentViewController(alertContoller, animated: true, completion: nil)
         
     }
-    
-//    func logOutFromUdacity() {
-//        dismissViewControllerAnimated(true, completion: nil)
-//    }
 }

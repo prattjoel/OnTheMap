@@ -14,32 +14,19 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
   
     @IBOutlet weak var mapView: MKMapView!
-    @IBOutlet weak var addLocation: UIBarButtonItem!
-    
-//    var parseClient = ParseClient()
-    var infoPostingController = InfoPostingViewController()
-    
-    var loginView = LoginViewController()
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        self.navigationController?.navigationBar.translucent = false
-//        
-//        let logOutButton: UIBarButtonItem = UIBarButtonItem(title: "Logout", style: .Plain, target: self, action: #selector(self.logOutFromUdacity))
-//        
-//        navigationItem.leftBarButtonItem = logOutButton
+        
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
         
         ParseClient.sharedInstance().getStudentLocations({ (success, result, error) in
             if success {
                 if let studentInforesult = result {
-                    
-                    
-                    
                     StudentInformationStore.sharedInstance.studentInformationCollection = studentInforesult
-//                    print("\(StudentInformationStore.sharedInstance.studentInformationCollection)")
-                    
-                    
                     
                     var annotations = [MKPointAnnotation]()
                     
@@ -65,7 +52,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                         self.mapView.addAnnotations(annotations)
                     }
                 } else {
-                    performUIUpdatesOnMain({ 
+                    performUIUpdatesOnMain({
                         self.presentAlertContoller("Could not find student locations")
                     })
                     
@@ -77,14 +64,13 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             }
         })
         
-        
-        
-    }
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-//        self.mapView.addAnnotations(annotations)
-//        print(self.mapView.annotations)
+
+        if let studentRegion = StudentInformationStore.currentStudentRegion {
+            self.mapView.setRegion(studentRegion, animated: true)
+            StudentInformationStore.currentStudentRegion = nil
+        } else {
+            print("no region given")
+        }
         
     }
     
@@ -102,7 +88,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         } else {
             pinView!.annotation = annotation
         }
-//        print("pinView created")
+        
         return pinView
         
     }
@@ -130,5 +116,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         presentViewController(alertContoller, animated: true, completion: nil)
         
     }
+    
+    
     
 }

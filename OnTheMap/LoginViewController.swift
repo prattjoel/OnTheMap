@@ -12,7 +12,6 @@ class LoginViewController: UIViewController {
     
     @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
-    @IBOutlet weak var debugTextView: UITextView!
     @IBOutlet weak var loginButton: UIButton!
     
     
@@ -72,7 +71,6 @@ class LoginViewController: UIViewController {
         usernameTextField.enabled = enabled
         passwordTextField.enabled = enabled
         loginButton.enabled = enabled
-        debugTextView.text = ""
         
         // adjust login button alpha
         if enabled {

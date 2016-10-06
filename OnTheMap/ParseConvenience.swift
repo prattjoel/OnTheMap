@@ -7,8 +7,75 @@
 //
 
 import Foundation
+import CoreLocation
+import MapKit
 
 extension ParseClient {
+    
+    func forwardGeocoding(addressString address: String, firstName first: String, lastName last: String, mediaURLString url: String, completionHandlerForGeocoding: (success: Bool, result: String?, error: ErrorType?) -> Void) {
+        
+        CLGeocoder().geocodeAddressString(address) { (placemarks, error) in
+            print("address for geocoding is:\n \(address)")
+            if error != nil {
+                print("Geocoding error: \(error)")
+                return
+            }
+            
+            
+            if placemarks?.count > 0 {
+                let placemark = placemarks?[0]
+                let location = placemark?.location
+                
+                if let coordinate = location?.coordinate {
+                    let studentLat = coordinate.latitude
+                    let studentLong = coordinate.longitude
+                    let region = MKCoordinateRegion(center: coordinate, span:MKCoordinateSpan(latitudeDelta: 1, longitudeDelta: 1))
+                    StudentInformationStore.currentStudentRegion = region
+                    
+                    self.addUserLocation(firstName: first, lastName: last, addressString: address, mediaURLString: url, latitude: studentLat, longitude: studentLong, completionHandlerForAdduserLocation: completionHandlerForGeocoding)
+                    
+                    
+                } else {
+                    print("no coordinates")
+                }
+                
+                if placemark?.areasOfInterest?.count > 0 {
+                    let areaOfInterest = placemark!.areasOfInterest![0]
+                    print(areaOfInterest)
+                } else {
+                    print("no area of interest")
+                }
+            }
+        }
+    }
+    
+    func addUserLocation(firstName first: String, lastName last: String, addressString address: String, mediaURLString url: String, latitude lat: Double, longitude long: Double, completionHandlerForAdduserLocation: (success: Bool, result: String?, error: ErrorType?) -> Void){
+        let studentInfo = self.isRepeatUser(firstNam: first, lastName: last)
+        if let student = studentInfo {
+            
+            let id = student.objectID
+            let uniqueKey = student.uniqueKey
+            print("obj ID and uniqueKey are: \(id), \(uniqueKey) after isRepeatUser call")
+            putStudentLocation(id, firstName: first, lastName: last, mediaURL: url, locationString: address, latitude: lat, longitude: long, completionHandlerForPutStudentLocation: completionHandlerForAdduserLocation)
+        } else {
+            print("person not found")
+            postStudentLocation(first, lastName: last, mediaURL: url, locationString: address, latitude: lat, longitude: long,  completionHandlerForPostStudentLocations: completionHandlerForAdduserLocation)
+        }
+    }
+    
+    func isRepeatUser(firstNam name: String, lastName: String) -> StudentInformation? {
+        var studentInfo: StudentInformation?
+        
+        
+        for (_, student) in StudentInformationStore.sharedInstance.studentInformationCollection.enumerate() {
+            
+            if student.lastName == lastName && student.firstName == name {
+                studentInfo = student
+            }
+        }
+        print(studentInfo)
+        return (studentInfo)
+    }
     
     
     // Get location of students
@@ -32,10 +99,7 @@ extension ParseClient {
                 return
             }
             
-//            print("\n Results before added to Student Struct: \(result)")
-            
             let studentLocations = StudentInformation.studentLocationsFromResults(result)
-//            print("\n Results after added to Student Struct: \n \(studentLocations)")
             
             completionHandlerForGetStudentLocations(success: true, result: studentLocations, error: nil)
             
@@ -48,7 +112,7 @@ extension ParseClient {
         
         let method = ""
         let parameters = [
-         StudentLocationParameters.singleStudent:[StudentLocationKeys.LastName: "\(lastName)"]
+            StudentLocationParameters.singleStudent:[StudentLocationKeys.ObjectID: lastName]
         ]
         
         taskForGetMethod(method, parameters: parameters) { (result, error) in
@@ -69,7 +133,7 @@ extension ParseClient {
     }
     
     // Post location of a student
-    func postStudentLocation(firstName: String, lastName: String, mediaURL: String, locationString: String, longitude long: Double, latitude lat: Double, completionHandlerForPostStudentLocations: (success: Bool, result: String?, error: ErrorType?) -> Void) {
+    func postStudentLocation(firstName: String, lastName: String, mediaURL: String, locationString: String, latitude lat: Double, longitude long: Double,  completionHandlerForPostStudentLocations: (success: Bool, result: String?, error: ErrorType?) -> Void) {
         
         let parameters = [String: AnyObject]()
         let method = ""
@@ -93,7 +157,7 @@ extension ParseClient {
         
     }
     
-    func putStudentLocation(objectID: String, firstName: String, lastName: String, mediaURL: String, locationString: String, longitude long: Double, latitude lat: Double, completionHandlerForPutStudentLocation: (success: Bool, result: String?, error: ErrorType?) -> Void) {
+    func putStudentLocation(objectID: String, firstName: String, lastName: String, mediaURL: String, locationString: String, latitude lat: Double, longitude long: Double,  completionHandlerForPutStudentLocation: (success: Bool, result: String?, error: ErrorType?) -> Void) {
         let parameters = [String: AnyObject]()
         let body = "{\"uniqueKey\": \"1234\", \"firstName\": \"\(firstName)\", \"lastName\": \"\(lastName)\",\"mapString\": \"\(locationString)\", \"mediaURL\": \"\(mediaURL)\",\"latitude\": \(lat), \"longitude\": \(long)}"
         let method = objectID
@@ -110,6 +174,7 @@ extension ParseClient {
             }
             
             print(result)
+            
             let update = result["updatedAt"] as? String
             completionHandlerForPutStudentLocation(success: true, result: update, error: nil)
             
@@ -117,5 +182,5 @@ extension ParseClient {
         }
         
     }
-
+    
 }

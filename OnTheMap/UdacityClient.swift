@@ -14,7 +14,20 @@ class UdacityClient: NSObject {
     //MARK: Shared Session
     var sharedSession = NSURLSession.sharedSession()
     
-    //MARK: POST
+    //MARK: - GET
+    func taskForGetMethod(method: String, parameters: [String:AnyObject], completionHandlerForGET: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionTask {
+        
+        let url = udacityURLFromParameters(parameters, withPathExtension: method)
+        let request = requestSetup(url, httpMethod: "Get")
+        
+        let task = taskSetup(request, domain: "taskForGetMethod", completionHandler: completionHandlerForGET)
+        task.resume()
+        
+        return task
+        
+    }
+    
+    //MARK: - POST
     func taskForPostMethod(method: String, parameters: [String:AnyObject], jsonBody: String, completionHandlerForPOST: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionTask {
         
         let url = udacityURLFromParameters(parameters, withPathExtension: method)
@@ -23,6 +36,7 @@ class UdacityClient: NSObject {
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.HTTPBody = jsonBody.dataUsingEncoding(NSUTF8StringEncoding)
         
+        
         let task = taskSetup(request, domain: "taskForPostMethod", completionHandler: completionHandlerForPOST)
         task.resume()
         
@@ -30,6 +44,7 @@ class UdacityClient: NSObject {
           
     }
     
+    //MARK: - DELETE
     func taskForDELETMethod(method: String, parameters: [String:AnyObject], completionHandlerForDELETE: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionTask {
         
         let url = udacityURLFromParameters(parameters, withPathExtension: method)
@@ -54,19 +69,8 @@ class UdacityClient: NSObject {
         
     }
     
-    private func convertDatawithCompletionHandler(data: NSData, completionHandlerForConvertData: (result: AnyObject!, error: NSError?) -> Void) {
-        var parsedResult: AnyObject!
-        do {
-            parsedResult = try NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments)
-        } catch {
-            let userInfo = [NSLocalizedDescriptionKey : "Could not parse the data as JSON: '\(data)'"]
-            completionHandlerForConvertData(result: nil, error: NSError(domain: "convertDatawithCompletionHandler", code: 1, userInfo: userInfo))
-        }
-        completionHandlerForConvertData(result: parsedResult, error: nil)
-
-    }
     
-    // create URL from paramaters
+    // MARK: - Create URL, Check Errors and Setup Request
     
     private func udacityURLFromParameters(parameters: [String: AnyObject], withPathExtension: String? = nil) -> NSURL {
         
@@ -104,6 +108,9 @@ class UdacityClient: NSObject {
             sendError("Your request returned a status code other than 2xx!")
             return
         }
+//        print(response)
+        
+        print("Status code: \(statusCode)")
         
         /* GUARD: Was there any data returned? */
         guard let data = data else {
@@ -119,8 +126,21 @@ class UdacityClient: NSObject {
         
     }
     
+    private func convertDatawithCompletionHandler(data: NSData, completionHandlerForConvertData: (result: AnyObject!, error: NSError?) -> Void) {
+        var parsedResult: AnyObject!
+        do {
+            parsedResult = try NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments)
+        } catch {
+            let userInfo = [NSLocalizedDescriptionKey : "Could not parse the data as JSON: '\(data)'"]
+            completionHandlerForConvertData(result: nil, error: NSError(domain: "convertDatawithCompletionHandler", code: 1, userInfo: userInfo))
+        }
+        completionHandlerForConvertData(result: parsedResult, error: nil)
+        
+    }
     
-    // Setup URL for requests
+    
+    
+    // Setup Request
     private func requestSetup(url: NSURL, httpMethod: String) -> NSMutableURLRequest {
         
         let request = NSMutableURLRequest(URL: url)

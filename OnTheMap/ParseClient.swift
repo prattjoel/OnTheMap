@@ -21,6 +21,7 @@ class ParseClient: NSObject {
         
         // Build URL, Configure the request
         let url = parseURLFromParameters(parameters, withPathExtension: method)
+        print("URL is: /n \(url)")
         let request = requestSetup(url, httpMethod: "GET")
         
         let task = taskSetup(request, domain: "taskForGetMethod", completionHandler: completionHandlerForGet)
@@ -107,6 +108,7 @@ class ParseClient: NSObject {
         /* GUARD: Did we get a successful 2XX response? */
         guard let statusCode = (response as? NSHTTPURLResponse)?.statusCode where statusCode >= 200 && statusCode <= 299 else {
             sendError("Your request returned a status code other than 2xx!")
+            print("status code returned: \n \((response as? NSHTTPURLResponse)?.statusCode)")
             return
         }
         

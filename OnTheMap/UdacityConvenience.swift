@@ -22,25 +22,33 @@ extension UdacityClient {
                 return
             }
             
-//            print(result)
+            print(result)
             
-            guard let result = result[UdacityClient.ResponseKeys.SessionInfo] as? [String:AnyObject] else {
+            guard let result = result[UdacityClient.ResponseKeys.AccountInfo] as? [String:AnyObject] else {
                 completionHandlerForLogin(success: false, result: nil, error: NSError(domain: "loginRequest parsing", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not parse loginRequest"]))
                 return
             }
             
-            guard let id = result[UdacityClient.ResponseKeys.ID] as? String else {
-                completionHandlerForLogin(success: false, result: nil, error: NSError(domain: "loginRequest parsing", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not parse loginRequest for session ID"]))
+            guard let accountKey = result[UdacityClient.ResponseKeys.UserCredential] as? String else {
+                completionHandlerForLogin(success: false, result: nil, error: NSError(domain: "loginRequest parsing", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not parse loginRequest for user credential"]))
+                return
+            }
+            print("Key: \(accountKey)")
+            
+            guard let registration = result[UdacityClient.ResponseKeys.RegistrationStatus] as? Bool else {
+                completionHandlerForLogin(success: false, result: nil, error: NSError(domain: "loginRequest parsing", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not parse loginRequest for registration"]))
                 return
             }
             
-            completionHandlerForLogin(success: true, result: id, error: nil)
-//            print("ID: \(id)")
+            print("registration status: \(registration)")
+            
+            completionHandlerForLogin(success: true, result: accountKey, error: nil)
+            
             
         }
     }
     
-    func logoutRequest (completionHandlerForLogout: (success: Bool, result: [String: AnyObject]?, error: NSError?) -> Void) {
+    func logoutRequest(completionHandlerForLogout: (success: Bool, result: [String: AnyObject]?, error: NSError?) -> Void) {
         let parameters = [String:AnyObject]()
         let method = UdacityClient.Methods.Session
         
@@ -57,6 +65,10 @@ extension UdacityClient {
             
             completionHandlerForLogout(success: true, result: result, error: nil)
         }
+    }
+    
+    func getStudentCresentials(id: String, completionHandlerForStudentCredentials: (success: Bool, result: StudentInformation?, error: NSError?) -> Void) {
+        
     }
     
     

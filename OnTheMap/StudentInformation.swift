@@ -19,6 +19,18 @@ struct StudentInformation {
     let uniqueKey: String
     var userKey: String?
     
+    init(key: String, lastName: String, firstName: String) {
+        self.firstName = firstName
+        self.lastName = lastName
+        latitude = 0.0
+        longitude = 0.0
+        mapString = ""
+        mediaURL = ""
+        objectID = ""
+        uniqueKey = ""
+        userKey = key
+    }
+    
     init(dictionary: [String: AnyObject]) {
         firstName = dictionary[ParseClient.StudentLocationKeys.FirstName] as! String
         lastName = dictionary[ParseClient.StudentLocationKeys.LastName] as! String

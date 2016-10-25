@@ -43,6 +43,25 @@ extension UdacityClient {
             
             print("user info from getUserRequest: \(user)")
             
+            guard let key = user[ResponseKeys.UserKey] as? String else {
+                completionHandlerForGetUserRequest(success: false, result: nil, error: NSError(domain: "getUserRequest key", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not find user key"]))
+                return
+            }
+            
+            guard let first = user[ResponseKeys.FirstName] as? String else {
+                completionHandlerForGetUserRequest(success: false, result: nil, error: NSError(domain: "getUserRequest first name", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not find user first name"]))
+                return
+            }
+            
+            guard let last = user[ResponseKeys.LastName] as? String else {
+                completionHandlerForGetUserRequest(success: false, result: nil, error: NSError(domain: "getUserRequest last name", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not find user last name"]))
+                return
+            }
+            
+            StudentInformationStore.currentStudent = StudentInformation.init(key: key, lastName: last, firstName: first)
+            
+            print(StudentInformationStore.currentStudent)
+            
             completionHandlerForGetUserRequest(success: true, result: user, error: nil)
             
 //            guard let user = result[ResponseKeys.User] as? [[String: AnyObject]] else {
@@ -74,7 +93,7 @@ extension UdacityClient {
                 return
             }
             
-            guard let accountKey = result[UdacityClient.ResponseKeys.UserCredential] as? String else {
+            guard let accountKey = result[UdacityClient.ResponseKeys.UserKey] as? String else {
                 completionHandlerForLogin(success: false, result: nil, error: NSError(domain: "loginRequest parsing", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not parse loginRequest for user credential"]))
                 return
             }

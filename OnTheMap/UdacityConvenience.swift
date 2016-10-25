@@ -41,7 +41,7 @@ extension UdacityClient {
                 return
             }
             
-            print("user info from getUserRequest: \(user)")
+//            print("user info from getUserRequest: \(user)")
             
             guard let key = user[ResponseKeys.UserKey] as? String else {
                 completionHandlerForGetUserRequest(success: false, result: nil, error: NSError(domain: "getUserRequest key", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not find user key"]))
@@ -60,7 +60,7 @@ extension UdacityClient {
             
             StudentInformationStore.currentStudent = StudentInformation.init(key: key, lastName: last, firstName: first)
             
-            print(StudentInformationStore.currentStudent)
+            print("The current student is: \n \(StudentInformationStore.currentStudent) \n")
             
             completionHandlerForGetUserRequest(success: true, result: user, error: nil)
             
@@ -86,7 +86,7 @@ extension UdacityClient {
                 return
             }
             
-            print(result)
+//            print(result)
             
             guard let result = result[UdacityClient.ResponseKeys.AccountInfo] as? [String:AnyObject] else {
                 completionHandlerForLogin(success: false, result: nil, error: NSError(domain: "loginRequest parsing", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not parse loginRequest"]))
@@ -104,7 +104,7 @@ extension UdacityClient {
                 return
             }
             
-            print("registration status: \(registration)")
+//            print("registration status: \(registration)")
             
             completionHandlerForLogin(success: true, result: accountKey, error: nil)
             

@@ -16,8 +16,7 @@ struct StudentInformation {
     let mapString: String?
     let mediaURL: String?
     let objectID: String
-    let uniqueKey: String
-    var userKey: String?
+    var uniqueKey: String
     
     init(key: String, lastName: String, firstName: String) {
         self.firstName = firstName
@@ -27,8 +26,7 @@ struct StudentInformation {
         mapString = ""
         mediaURL = ""
         objectID = ""
-        uniqueKey = ""
-        userKey = key
+        uniqueKey = key
     }
     
     init(dictionary: [String: AnyObject]) {
@@ -52,11 +50,7 @@ struct StudentInformation {
         mediaURL = dictionary[ParseClient.StudentLocationKeys.MediaURL] as? String
         objectID = dictionary[ParseClient.StudentLocationKeys.ObjectID] as! String
         uniqueKey = dictionary[ParseClient.StudentLocationKeys.UniqueKey] as! String
-        if let key = dictionary[UdacityClient.ResponseKeys.UserKey] {
-            userKey = key as? String
-        } else {
-            userKey = nil
-        }
+
     }
     
     static func studentLocationsFromResults(results: [[String: AnyObject]]) -> [StudentInformation] {
@@ -76,7 +70,7 @@ struct StudentInformation {
         
         currentStudent.firstName = results[UdacityClient.ResponseKeys.FirstName] as! String
         currentStudent.lastName = results[UdacityClient.ResponseKeys.LastName] as! String
-        currentStudent.userKey = results[UdacityClient.ResponseKeys.UserKey] as? String
+        currentStudent.uniqueKey = results[UdacityClient.ResponseKeys.UserKey] as! String
         
         return currentStudent
         

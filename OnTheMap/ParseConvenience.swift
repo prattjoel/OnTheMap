@@ -50,26 +50,28 @@ extension ParseClient {
     }
     
     func addUserLocation(firstName first: String, lastName last: String, addressString address: String, mediaURLString url: String, latitude lat: Double, longitude long: Double, completionHandlerForAdduserLocation: (success: Bool, result: String?, error: ErrorType?) -> Void){
-        let studentInfo = self.isRepeatUser(firstNam: first, lastName: last)
+        let studentInfo = self.isRepeatUser()
         if let student = studentInfo {
             
             let id = student.objectID
             let uniqueKey = student.uniqueKey
             print("obj ID and uniqueKey are: \(id), \(uniqueKey) after isRepeatUser call")
-            putStudentLocation(id, firstName: first, lastName: last, mediaURL: url, locationString: address, latitude: lat, longitude: long, completionHandlerForPutStudentLocation: completionHandlerForAdduserLocation)
+            putStudentLocation(id, firstName: first, lastName: last, key: uniqueKey, mediaURL: url, locationString: address, latitude: lat, longitude: long, completionHandlerForPutStudentLocation: completionHandlerForAdduserLocation)
         } else {
             print("person not found")
-            postStudentLocation(first, lastName: last, mediaURL: url, locationString: address, latitude: lat, longitude: long,  completionHandlerForPostStudentLocations: completionHandlerForAdduserLocation)
+            if let student = StudentInformationStore.currentStudent {
+            postStudentLocation(first, lastName: last, key: student.uniqueKey, mediaURL: url, locationString: address, latitude: lat, longitude: long,  completionHandlerForPostStudentLocations: completionHandlerForAdduserLocation)
+            }
         }
     }
     
-    func isRepeatUser(firstNam name: String, lastName: String) -> StudentInformation? {
+    func isRepeatUser() -> StudentInformation? {
         var studentInfo: StudentInformation?
         
         
         for (_, student) in StudentInformationStore.sharedInstance.studentInformationCollection.enumerate() {
             
-            if student.lastName == lastName && student.firstName == name {
+            if student.uniqueKey == StudentInformationStore.currentStudent?.uniqueKey {
                 studentInfo = student
             }
         }
@@ -100,6 +102,8 @@ extension ParseClient {
             }
             
             let studentLocations = StudentInformation.studentLocationsFromResults(result)
+            
+            print(studentLocations)
             
             completionHandlerForGetStudentLocations(success: true, result: studentLocations, error: nil)
             
@@ -133,11 +137,11 @@ extension ParseClient {
     }
     
     // Post location of a student
-    func postStudentLocation(firstName: String, lastName: String, mediaURL: String, locationString: String, latitude lat: Double, longitude long: Double,  completionHandlerForPostStudentLocations: (success: Bool, result: String?, error: ErrorType?) -> Void) {
+    func postStudentLocation(firstName: String, lastName: String, key: String, mediaURL: String, locationString: String, latitude lat: Double, longitude long: Double,  completionHandlerForPostStudentLocations: (success: Bool, result: String?, error: ErrorType?) -> Void) {
         
         let parameters = [String: AnyObject]()
         let method = ""
-        let body = "{\"uniqueKey\": \"1234\", \"firstName\": \"\(firstName)\", \"lastName\": \"\(lastName)\",\"mapString\": \"\(locationString)\", \"mediaURL\": \"\(mediaURL)\",\"latitude\": \(lat), \"longitude\": \(long)}"
+        let body = "{\"uniqueKey\": \"\(key)\", \"firstName\": \"\(firstName)\", \"lastName\": \"\(lastName)\",\"mapString\": \"\(locationString)\", \"mediaURL\": \"\(mediaURL)\",\"latitude\": \(lat), \"longitude\": \(long)}"
         taskForPostMethod(method, parameters: parameters, jsonBody: body) { (result, error) in
             guard (error == nil) else {
                 completionHandlerForPostStudentLocations(success: false, result: nil, error: error)
@@ -157,9 +161,9 @@ extension ParseClient {
         
     }
     
-    func putStudentLocation(objectID: String, firstName: String, lastName: String, mediaURL: String, locationString: String, latitude lat: Double, longitude long: Double,  completionHandlerForPutStudentLocation: (success: Bool, result: String?, error: ErrorType?) -> Void) {
+    func putStudentLocation(objectID: String, firstName: String, lastName: String, key: String, mediaURL: String, locationString: String, latitude lat: Double, longitude long: Double,  completionHandlerForPutStudentLocation: (success: Bool, result: String?, error: ErrorType?) -> Void) {
         let parameters = [String: AnyObject]()
-        let body = "{\"uniqueKey\": \"1234\", \"firstName\": \"\(firstName)\", \"lastName\": \"\(lastName)\",\"mapString\": \"\(locationString)\", \"mediaURL\": \"\(mediaURL)\",\"latitude\": \(lat), \"longitude\": \(long)}"
+        let body = "{\"uniqueKey\": \"\(key)\", \"firstName\": \"\(firstName)\", \"lastName\": \"\(lastName)\",\"mapString\": \"\(locationString)\", \"mediaURL\": \"\(mediaURL)\",\"latitude\": \(lat), \"longitude\": \(long)}"
         let method = objectID
         
         taskForPutMethod(method, paramaters: parameters, jsonBody: body) { (result, error) in

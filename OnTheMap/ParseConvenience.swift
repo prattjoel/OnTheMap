@@ -18,6 +18,7 @@ extension ParseClient {
             print("address for geocoding is:\n \(address)")
             if error != nil {
                 print("Geocoding error: \(error)")
+                completionHandlerForGeocoding(success: false, result: nil, error: error)
                 return
             }
             
@@ -103,7 +104,7 @@ extension ParseClient {
             
             let studentLocations = StudentInformation.studentLocationsFromResults(result)
             
-            print(studentLocations)
+//            print(studentLocations)
             
             completionHandlerForGetStudentLocations(success: true, result: studentLocations, error: nil)
             

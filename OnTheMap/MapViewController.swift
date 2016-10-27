@@ -59,7 +59,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                 }
             } else {
                 performUIUpdatesOnMain() {
-                    self.presentAlertContoller("Could not load student locations")
+                    self.presentAlertContoller("Could not download student locations")
                 }
             }
         })
@@ -105,11 +105,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     func presentAlertContoller(message: String) {
         let alertContoller = UIAlertController(title: "No Student Locations", message: message, preferredStyle: .Alert)
-        let okAction = UIAlertAction(title: "OK", style: .Default, handler: {
-            action in
-            
-            self.dismissViewControllerAnimated(true, completion: nil)
-        })
+        let okAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
         
         alertContoller.addAction(okAction)
         

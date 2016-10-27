@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="9Go-4P-mDx">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G1108" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="9Go-4P-mDx">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -51,10 +51,14 @@
                                     <action selector="loginButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="jZM-X7-veX"/>
                                 </connections>
                             </button>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="twy-GA-MMM">
+                                <rect key="frame" x="290" y="437" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" red="0.27731969690000002" green="0.23444029320000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="trailingMargin" secondItem="DOx-DK-idm" secondAttribute="trailing" id="1Co-Q4-bkH"/>
+                            <constraint firstItem="twy-GA-MMM" firstAttribute="top" secondItem="DOx-DK-idm" secondAttribute="bottom" constant="2" id="4Yg-b5-X1e"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Prb-nt-93U" secondAttribute="trailing" id="9Re-4l-bcR"/>
                             <constraint firstItem="Prb-nt-93U" firstAttribute="top" secondItem="EPa-0C-4R8" secondAttribute="bottom" constant="8" id="Sgz-Kc-ijT"/>
                             <constraint firstItem="DOx-DK-idm" firstAttribute="top" secondItem="Prb-nt-93U" secondAttribute="bottom" constant="8" id="WwB-x6-nug"/>
@@ -63,11 +67,13 @@
                             <constraint firstAttribute="trailingMargin" secondItem="EPa-0C-4R8" secondAttribute="trailing" id="ptn-kv-nam"/>
                             <constraint firstItem="EPa-0C-4R8" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="265" id="sMm-Yx-cvh"/>
                             <constraint firstItem="Prb-nt-93U" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="thD-bT-sVz"/>
+                            <constraint firstItem="twy-GA-MMM" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="yqC-EN-rOS"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Login" id="sxd-H1-h6Z"/>
                     <connections>
                         <outlet property="loginButton" destination="DOx-DK-idm" id="5WP-dW-fgi"/>
+                        <outlet property="loginIndicator" destination="twy-GA-MMM" id="KeJ-wu-onT"/>
                         <outlet property="passwordTextField" destination="Prb-nt-93U" id="Xj1-eZ-GRb"/>
                         <outlet property="usernameTextField" destination="EPa-0C-4R8" id="bF8-0h-6nx"/>
                     </connections>
@@ -238,6 +244,16 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lrb-HQ-Qaf">
+                                <rect key="frame" x="532" y="20" width="48" height="30"/>
+                                <state key="normal" title="Cancel"/>
+                                <connections>
+                                    <action selector="cancelInfoPostingView:" destination="Nuu-5W-JGx" eventType="touchUpInside" id="V1Z-Zc-3MX"/>
+                                </connections>
+                            </button>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="Rem-KT-tft">
+                                <rect key="frame" x="290" y="323" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" red="0.43529411759999997" green="0.4431372549" blue="0.47450980390000003" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
@@ -245,9 +261,13 @@
                             <constraint firstItem="KTa-dD-1RN" firstAttribute="leading" secondItem="1rb-SX-t3p" secondAttribute="leadingMargin" id="4Kz-W8-dvY"/>
                             <constraint firstItem="QHT-yt-BPi" firstAttribute="top" secondItem="KTa-dD-1RN" secondAttribute="bottom" constant="30" id="57h-eW-400"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Zhr-Jh-O47" secondAttribute="trailing" id="8VQ-dT-7j7"/>
+                            <constraint firstItem="Lrb-HQ-Qaf" firstAttribute="top" secondItem="8Ux-qJ-woZ" secondAttribute="bottom" id="9h1-16-Kwd"/>
                             <constraint firstItem="aUd-pc-rz0" firstAttribute="top" secondItem="Zhr-Jh-O47" secondAttribute="bottom" constant="50" id="DSh-D0-GfA"/>
+                            <constraint firstItem="aUd-pc-rz0" firstAttribute="top" secondItem="Rem-KT-tft" secondAttribute="bottom" constant="8" id="Ekg-FS-m1F"/>
                             <constraint firstItem="aPU-r4-qc4" firstAttribute="top" secondItem="QHT-yt-BPi" secondAttribute="bottom" constant="30" id="JLV-fX-3yx"/>
+                            <constraint firstItem="Lrb-HQ-Qaf" firstAttribute="trailing" secondItem="1rb-SX-t3p" secondAttribute="trailingMargin" id="N6P-yU-gRg"/>
                             <constraint firstItem="Zhr-Jh-O47" firstAttribute="top" secondItem="aPU-r4-qc4" secondAttribute="bottom" constant="30" id="Ob9-9T-5ls"/>
+                            <constraint firstItem="Rem-KT-tft" firstAttribute="centerX" secondItem="1rb-SX-t3p" secondAttribute="centerX" id="PK9-3C-t4U"/>
                             <constraint firstItem="8Ln-aL-vYy" firstAttribute="top" secondItem="8Ux-qJ-woZ" secondAttribute="bottom" id="UtY-7F-Lmm"/>
                             <constraint firstItem="Zhr-Jh-O47" firstAttribute="leading" secondItem="1rb-SX-t3p" secondAttribute="leadingMargin" id="W2D-MO-OLg"/>
                             <constraint firstItem="aPU-r4-qc4" firstAttribute="leading" secondItem="1rb-SX-t3p" secondAttribute="leadingMargin" id="ZqA-fd-cKT"/>
@@ -262,6 +282,7 @@
                     <connections>
                         <outlet property="addressTextField" destination="Zhr-Jh-O47" id="BgE-OC-Ros"/>
                         <outlet property="firstNameTextField" destination="KTa-dD-1RN" id="VUv-Lk-nCE"/>
+                        <outlet property="indicatorForGeoCoding" destination="Rem-KT-tft" id="4NL-rv-Xs5"/>
                         <outlet property="lastNameTextField" destination="QHT-yt-BPi" id="nNu-na-nII"/>
                         <outlet property="submitLocation" destination="aUd-pc-rz0" id="Vaz-xl-et5"/>
                         <outlet property="urlTextField" destination="aPU-r4-qc4" id="4YK-tF-hMJ"/>

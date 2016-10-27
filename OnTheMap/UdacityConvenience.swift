@@ -99,10 +99,10 @@ extension UdacityClient {
             }
             print("Key: \(accountKey)")
             
-            guard let registration = result[UdacityClient.ResponseKeys.RegistrationStatus] as? Bool else {
-                completionHandlerForLogin(success: false, result: nil, error: NSError(domain: "loginRequest parsing", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not parse loginRequest for registration"]))
-                return
-            }
+//            guard let registration = result[UdacityClient.ResponseKeys.RegistrationStatus] as? Bool else {
+//                completionHandlerForLogin(success: false, result: nil, error: NSError(domain: "loginRequest parsing", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not parse loginRequest for registration"]))
+//                return
+//            }
             
 //            print("registration status: \(registration)")
             

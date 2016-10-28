@@ -11,20 +11,36 @@ import UIKit
 
 class TabBarViewController: UITabBarController {
     
-    var mapController = MapViewController()
+    
+//    @IBOutlet var logoutButton: UITabBarItem!
+    
+    let fbLoginManager = FBSDKLoginManager()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+//        logoutEnabled(false)
+
+    }
     
     @IBAction func logoutOfUdacity(sender: AnyObject) {
         showActivityIndicator(true)
+        
         UdacityClient.sharedInstance().logoutRequest { (success, result, error) in
             if success {
+                
                 performUIUpdatesOnMain({
+                    self.fbLoginManager.logOut()
                     print("\(result)")
                     self.showActivityIndicator(false)
                     self.navigationController?.popToRootViewControllerAnimated(true)
                 })
             } else {
-                self.showActivityIndicator(false)
-                print(error)
+                performUIUpdatesOnMain({ 
+                    self.showActivityIndicator(false)
+                })
+                
+                print("Error from logout button: \(error)")
             }
         }
         
@@ -48,5 +64,9 @@ class TabBarViewController: UITabBarController {
         } else {
             indicator.stopAnimating()
         }
+    }
+    
+    func logoutEnabled(enabled: Bool) {
+        self.navigationItem.leftBarButtonItem?.enabled = enabled
     }
 }

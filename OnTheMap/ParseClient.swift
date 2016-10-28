@@ -21,7 +21,7 @@ class ParseClient: NSObject {
         
         // Build URL, Configure the request
         let url = parseURLFromParameters(parameters, withPathExtension: method)
-        print("URL is: /n \(url)")
+//        print("URL is: /n \(url)")
         let request = requestSetup(url, httpMethod: "GET")
         
         let task = taskSetup(request, domain: "taskForGetMethod", completionHandler: completionHandlerForGet)

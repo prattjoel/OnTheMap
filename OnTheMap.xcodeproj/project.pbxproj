@@ -14,6 +14,11 @@
 		5D2A070A1D94568A0025483A /* StudentsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D2A07091D9456890025483A /* StudentsTableViewController.swift */; };
 		5D4527FA1D904FD2004C4302 /* InfoPostingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D4527F91D904FD2004C4302 /* InfoPostingViewController.swift */; };
 		5D4F8AF51D95F755008EF93F /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D4F8AF41D95F755008EF93F /* TabBarViewController.swift */; };
+		5D7ED05D1DC2A2230045C69C /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D7ED0591DC2A2230045C69C /* Bolts.framework */; };
+		5D7ED05E1DC2A2230045C69C /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D7ED05A1DC2A2230045C69C /* FBSDKCoreKit.framework */; };
+		5D7ED05F1DC2A2230045C69C /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D7ED05B1DC2A2230045C69C /* FBSDKLoginKit.framework */; };
+		5D7ED0601DC2A2230045C69C /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D7ED05C1DC2A2230045C69C /* FBSDKShareKit.framework */; };
+		5D7ED0641DC2AC160045C69C /* Test.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D7ED0631DC2AC160045C69C /* Test.m */; };
 		5D9E18991D89A88800444290 /* GCD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D9E18981D89A88800444290 /* GCD.swift */; };
 		5D9E189B1D89D50400444290 /* UdacityConvenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D9E189A1D89D50400444290 /* UdacityConvenience.swift */; };
 		5DE242481D875D8F00BC3C9B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DE242471D875D8F00BC3C9B /* AppDelegate.swift */; };
@@ -35,6 +40,12 @@
 		5D2A07091D9456890025483A /* StudentsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudentsTableViewController.swift; sourceTree = "<group>"; };
 		5D4527F91D904FD2004C4302 /* InfoPostingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoPostingViewController.swift; sourceTree = "<group>"; };
 		5D4F8AF41D95F755008EF93F /* TabBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
+		5D7ED0591DC2A2230045C69C /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
+		5D7ED05A1DC2A2230045C69C /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
+		5D7ED05B1DC2A2230045C69C /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
+		5D7ED05C1DC2A2230045C69C /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKShareKit.framework; sourceTree = "<group>"; };
+		5D7ED0621DC2AC160045C69C /* OnTheMap-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OnTheMap-Bridging-Header.h"; sourceTree = "<group>"; };
+		5D7ED0631DC2AC160045C69C /* Test.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Test.m; sourceTree = "<group>"; };
 		5D9E18981D89A88800444290 /* GCD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GCD.swift; sourceTree = "<group>"; };
 		5D9E189A1D89D50400444290 /* UdacityConvenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UdacityConvenience.swift; sourceTree = "<group>"; };
 		5DE242441D875D8F00BC3C9B /* OnTheMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OnTheMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -55,12 +66,27 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5D7ED0601DC2A2230045C69C /* FBSDKShareKit.framework in Frameworks */,
+				5D7ED05D1DC2A2230045C69C /* Bolts.framework in Frameworks */,
+				5D7ED05E1DC2A2230045C69C /* FBSDKCoreKit.framework in Frameworks */,
+				5D7ED05F1DC2A2230045C69C /* FBSDKLoginKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5D7ED0581DC2A1B20045C69C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				5D7ED0591DC2A2230045C69C /* Bolts.framework */,
+				5D7ED05A1DC2A2230045C69C /* FBSDKCoreKit.framework */,
+				5D7ED05B1DC2A2230045C69C /* FBSDKLoginKit.framework */,
+				5D7ED05C1DC2A2230045C69C /* FBSDKShareKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		5DE2423B1D875D8F00BC3C9B = {
 			isa = PBXGroup;
 			children = (
@@ -80,14 +106,17 @@
 		5DE242461D875D8F00BC3C9B /* OnTheMap */ = {
 			isa = PBXGroup;
 			children = (
+				5D7ED0581DC2A1B20045C69C /* Frameworks */,
 				5DE2425B1D87600700BC3C9B /* Controller */,
 				5DE2425A1D87600000BC3C9B /* View */,
 				5DE242591D875FF500BC3C9B /* Model */,
 				5DE242471D875D8F00BC3C9B /* AppDelegate.swift */,
+				5D7ED0631DC2AC160045C69C /* Test.m */,
 				5DE2424B1D875D8F00BC3C9B /* Main.storyboard */,
 				5DE2424E1D875D8F00BC3C9B /* Assets.xcassets */,
 				5DE242501D875D8F00BC3C9B /* LaunchScreen.storyboard */,
 				5DE242531D875D8F00BC3C9B /* Info.plist */,
+				5D7ED0621DC2AC160045C69C /* OnTheMap-Bridging-Header.h */,
 			);
 			path = OnTheMap;
 			sourceTree = "<group>";
@@ -183,7 +212,6 @@
 				TargetAttributes = {
 					5DE242431D875D8F00BC3C9B = {
 						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = Q379959Y72;
 					};
 				};
 			};
@@ -224,6 +252,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5D03FE271D8B037A0099E8E1 /* ParseConvenience.swift in Sources */,
+				5D7ED0641DC2AC160045C69C /* Test.m in Sources */,
 				5D9E18991D89A88800444290 /* GCD.swift in Sources */,
 				5DE242641D87770600BC3C9B /* UdacityClient.swift in Sources */,
 				5DE2425F1D87641700BC3C9B /* ParseClient.swift in Sources */,
@@ -350,10 +379,18 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/OnTheMap",
+				);
 				INFOPLIST_FILE = OnTheMap/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.joelpratt.OnTheMap;
+				PRODUCT_BUNDLE_IDENTIFIER = com.udacity.OnTheMap;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "OnTheMap/OnTheMap-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -361,10 +398,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/OnTheMap",
+				);
 				INFOPLIST_FILE = OnTheMap/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.joelpratt.OnTheMap;
+				PRODUCT_BUNDLE_IDENTIFIER = com.udacity.OnTheMap;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "OnTheMap/OnTheMap-Bridging-Header.h";
 			};
 			name = Release;
 		};

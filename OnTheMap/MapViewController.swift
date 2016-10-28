@@ -12,8 +12,10 @@ import MapKit
 
 class MapViewController: UIViewController, MKMapViewDelegate {
     
-  
+    
     @IBOutlet weak var mapView: MKMapView!
+    
+    let tabVC = TabBarViewController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,9 +24,18 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        self.tabVC.logoutEnabled(true)
+
         
         ParseClient.sharedInstance().getStudentLocations({ (success, result, error) in
             if success {
+                
+                performUIUpdatesOnMain({ 
+                    let previousAnnotations = self.mapView.annotations
+                    self.mapView.removeAnnotations(previousAnnotations)
+                })
+                
+                
                 if let studentInforesult = result {
                     StudentInformationStore.sharedInstance.studentInformationCollection = studentInforesult
                     
@@ -50,6 +61,19 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                     
                     performUIUpdatesOnMain(){
                         self.mapView.addAnnotations(annotations)
+                        
+
+                        if let studentRegion = StudentInformationStore.currentStudentRegion {
+                            self.mapView.setRegion(studentRegion, animated: true)
+
+                            StudentInformationStore.currentStudentRegion = nil
+                            
+                        } else {
+                            print("no region given")
+
+                        }
+                        
+                        
                     }
                 } else {
                     performUIUpdatesOnMain({
@@ -64,13 +88,6 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             }
         })
         
-
-        if let studentRegion = StudentInformationStore.currentStudentRegion {
-            self.mapView.setRegion(studentRegion, animated: true)
-            StudentInformationStore.currentStudentRegion = nil
-        } else {
-            print("no region given")
-        }
         
     }
     

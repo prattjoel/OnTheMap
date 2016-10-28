@@ -11,9 +11,9 @@ import Foundation
 
 extension UdacityClient {
     
-    func getCurrentUser(username: String, password: String, completionHandlerForGetCurrentUser: (success: Bool, result: [String: AnyObject]?, error: NSError?) -> Void) {
+    func getCurrentUser(username: String?, password: String?, token: String?, completionHandlerForGetCurrentUser: (success: Bool, result: [String: AnyObject]?, error: NSError?) -> Void) {
         
-        loginRequest(username, password: password) { (success, result, error) in
+        loginRequest(username, password: password, token: token) { (success, result, error) in
             if success {
                 if let userKey = result {
                 self.getUserRequest(userKey: userKey, completionHandlerForGetUserRequest: completionHandlerForGetCurrentUser)
@@ -60,7 +60,7 @@ extension UdacityClient {
             
             StudentInformationStore.currentStudent = StudentInformation.init(key: key, lastName: last, firstName: first)
             
-            print("The current student is: \n \(StudentInformationStore.currentStudent) \n")
+//            print("The current student is: \n \(StudentInformationStore.currentStudent) \n")
             
             completionHandlerForGetUserRequest(success: true, result: user, error: nil)
             
@@ -73,10 +73,17 @@ extension UdacityClient {
     }
     
     // Login
-    func loginRequest(username: String, password: String, completionHandlerForLogin: (success: Bool, result: String?, error: NSError?) -> Void) {
+    func loginRequest(username: String?, password: String?, token: String?, completionHandlerForLogin: (success: Bool, result: String?, error: NSError?) -> Void) {
         let parameters: [String: AnyObject]? = nil
         let method = UdacityClient.Methods.Session
-        let body = "{\"udacity\": {\"username\": \"\(username)\", \"password\": \"\(password)\"}}"
+        var body = ""
+        
+        if let accessToken = token {
+            
+            body = "{\"facebook_mobile\": {\"access_token\": \"\(accessToken)\"}}"
+        } else {
+            body = "{\"udacity\": {\"username\": \"\(username)\", \"password\": \"\(password)\"}}"
+        }
 //        print("json body: \n \(body)")
         
         taskForPostMethod(method, parameters: parameters, jsonBody: body) { (result, error) in
@@ -97,7 +104,7 @@ extension UdacityClient {
                 completionHandlerForLogin(success: false, result: nil, error: NSError(domain: "loginRequest parsing", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not parse loginRequest for user credential"]))
                 return
             }
-            print("Key: \(accountKey)")
+//            print("Key: \(accountKey)")
             
 //            guard let registration = result[UdacityClient.ResponseKeys.RegistrationStatus] as? Bool else {
 //                completionHandlerForLogin(success: false, result: nil, error: NSError(domain: "loginRequest parsing", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not parse loginRequest for registration"]))

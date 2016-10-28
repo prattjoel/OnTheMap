@@ -31,7 +31,7 @@ class TabBarViewController: UITabBarController {
                 
                 performUIUpdatesOnMain({
                     self.fbLoginManager.logOut()
-                    print("\(result)")
+//                    print("\(result)")
                     self.showActivityIndicator(false)
                     self.navigationController?.popToRootViewControllerAnimated(true)
                 })

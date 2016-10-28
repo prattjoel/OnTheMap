@@ -82,9 +82,11 @@ extension UdacityClient {
             
             body = "{\"facebook_mobile\": {\"access_token\": \"\(accessToken)\"}}"
         } else {
-            body = "{\"udacity\": {\"username\": \"\(username)\", \"password\": \"\(password)\"}}"
+            if let name = username, pWord = password {
+            body = "{\"udacity\": {\"username\": \"\(name)\", \"password\": \"\(pWord)\"}}"
+            }
         }
-//        print("json body: \n \(body)")
+        print("json body: \n \(body)")
         
         taskForPostMethod(method, parameters: parameters, jsonBody: body) { (result, error) in
             

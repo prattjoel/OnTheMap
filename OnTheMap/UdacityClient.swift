@@ -53,6 +53,7 @@ class UdacityClient: NSObject {
     func taskForDELETMethod(method: String, parameters: [String:AnyObject], completionHandlerForDELETE: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionTask {
         
         let url = udacityURLFromParameters(parameters, withPathExtension: method)
+        print("url from deleteMethod is: \(url)")
         let request = requestSetup(url, httpMethod: "DELETE")
         var xsrfCookie: NSHTTPCookie? = nil
         let sharedCookieStorage = NSHTTPCookieStorage.sharedHTTPCookieStorage()
@@ -66,6 +67,8 @@ class UdacityClient: NSObject {
         if let xsrfCookie = xsrfCookie {
             request.setValue(xsrfCookie.value, forHTTPHeaderField: "X-XSRF-TOKEN")
         }
+        
+        print("request from deleteMethod: \(request)")
         
         let task = taskSetup(request, domain: "taskForDELETEMethod", completionHandler: completionHandlerForDELETE)
         task.resume()

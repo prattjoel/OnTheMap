@@ -34,7 +34,7 @@ extension UdacityClient {
                 completionHandlerForGetUserRequest(success: false, result: nil, error: error)
                 return
             }
-//            print("result from getUserRequest: \n \(result)")
+//            print(" \n Result from getUserRequest: \n \(result)")
             
             guard let user = result[ResponseKeys.User] as? [String: AnyObject] else {
                 completionHandlerForGetUserRequest(success: false, result: nil, error: NSError(domain: "getUserRequest parsing", code: 0, userInfo: [NSLocalizedDescriptionKey : "Could not parse getUserRequest"]))
@@ -53,10 +53,14 @@ extension UdacityClient {
                 return
             }
             
+            print("first name is: \(first)")
+            
             guard let last = user[ResponseKeys.LastName] as? String else {
                 completionHandlerForGetUserRequest(success: false, result: nil, error: NSError(domain: "getUserRequest last name", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not find user last name"]))
                 return
             }
+            
+            print("last name is: \(last)")
             
             StudentInformationStore.currentStudent = StudentInformation.init(key: key, lastName: last, firstName: first)
             
@@ -86,7 +90,7 @@ extension UdacityClient {
             body = "{\"udacity\": {\"username\": \"\(name)\", \"password\": \"\(pWord)\"}}"
             }
         }
-        print("json body: \n \(body)")
+//        print("json body: \n \(body)")
         
         taskForPostMethod(method, parameters: parameters, jsonBody: body) { (result, error) in
             
@@ -95,25 +99,20 @@ extension UdacityClient {
                 return
             }
             
-//            print(result)
+            print("\n Results from udacity login: \(result) \n")
+
             
             guard let result = result[UdacityClient.ResponseKeys.AccountInfo] as? [String:AnyObject] else {
                 completionHandlerForLogin(success: false, result: nil, error: NSError(domain: "loginRequest parsing", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not parse loginRequest"]))
                 return
             }
             
+            
             guard let accountKey = result[UdacityClient.ResponseKeys.UserKey] as? String else {
                 completionHandlerForLogin(success: false, result: nil, error: NSError(domain: "loginRequest parsing", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not parse loginRequest for user credential"]))
                 return
             }
-//            print("Key: \(accountKey)")
-            
-//            guard let registration = result[UdacityClient.ResponseKeys.RegistrationStatus] as? Bool else {
-//                completionHandlerForLogin(success: false, result: nil, error: NSError(domain: "loginRequest parsing", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not parse loginRequest for registration"]))
-//                return
-//            }
-            
-//            print("registration status: \(registration)")
+
             
             completionHandlerForLogin(success: true, result: accountKey, error: nil)
             

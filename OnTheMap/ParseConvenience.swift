@@ -102,6 +102,8 @@ extension ParseClient {
                 return
             }
             
+//            print("result from getStudentlocations: \(result)")
+            
             let studentLocations = StudentInformation.studentLocationsFromResults(result)
             
 //            print(studentLocations)

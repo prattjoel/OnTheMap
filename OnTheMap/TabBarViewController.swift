@@ -15,12 +15,12 @@ class TabBarViewController: UITabBarController {
 //    @IBOutlet var logoutButton: UITabBarItem!
     
     let fbLoginManager = FBSDKLoginManager()
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        logoutEnabled(false)
-
+        self.navigationItem.leftBarButtonItem?.enabled = false
     }
     
     @IBAction func logoutOfUdacity(sender: AnyObject) {
@@ -52,16 +52,20 @@ class TabBarViewController: UITabBarController {
     }
     
     func showActivityIndicator(start: Bool) {
-        
         let indicator: UIActivityIndicatorView = UIActivityIndicatorView()
+
         indicator.frame = CGRectMake(0.0, 0.0, 40.0, 40.0)
         indicator.center = self.view.center
         indicator.hidesWhenStopped = true
         indicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
-        self.view.addSubview(indicator)
+
+        
         if start {
+            self.view.addSubview(indicator)
+            print("indicator started")
             indicator.startAnimating()
         } else {
+            print("indicator stopped")
             indicator.stopAnimating()
         }
     }

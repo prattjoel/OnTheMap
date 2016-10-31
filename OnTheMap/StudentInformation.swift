@@ -30,8 +30,18 @@ struct StudentInformation {
     }
     
     init(dictionary: [String: AnyObject]) {
-        firstName = dictionary[ParseClient.StudentLocationKeys.FirstName] as! String
-        lastName = dictionary[ParseClient.StudentLocationKeys.LastName] as! String
+        if let first = dictionary[ParseClient.StudentLocationKeys.FirstName] {
+            
+            firstName = first as! String
+        } else {
+            firstName = "Unkown First Name"
+        }
+        
+        if let last = dictionary[ParseClient.StudentLocationKeys.LastName] {
+            lastName = last as! String
+        } else {
+            lastName = "Unkown Last Name"
+        }
         if let lat = dictionary[ParseClient.StudentLocationKeys.Latitude] {
             latitude = lat as? Double
         } else {
@@ -49,7 +59,11 @@ struct StudentInformation {
         }
         mediaURL = dictionary[ParseClient.StudentLocationKeys.MediaURL] as? String
         objectID = dictionary[ParseClient.StudentLocationKeys.ObjectID] as! String
-        uniqueKey = dictionary[ParseClient.StudentLocationKeys.UniqueKey] as! String
+        if let key = dictionary[ParseClient.StudentLocationKeys.UniqueKey] {
+            uniqueKey = key as! String
+        } else {
+            uniqueKey = "unknown unique key"
+        }
 
     }
     

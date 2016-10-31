@@ -25,19 +25,15 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
         
         
         if FBSDKAccessToken.currentAccessToken() != nil {
-            // User is already logged in, do work such as go to next view controller.
             hideActivityIndicator(false)
-            
             let token = FBSDKAccessToken.currentAccessToken().tokenString
-//            print("Already logged in to facebook \(returnUserData())")
-//            print("\n Access token is: \(token)")
             UdacityClient.sharedInstance().getCurrentUser(nil, password: nil, token: token, completionHandlerForGetCurrentUser: { (success, result, error) in
                 if success {
                     self.goToMapView()
                 } else {
                     print(error)
                     self.presentAlertContoller("Unable to login with Facebook")
-
+                    
                 }
             })
         } else {
@@ -59,9 +55,7 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
         if usernameTextField.text != "" && passwordTextField.text != "" {
             UdacityClient.sharedInstance().getCurrentUser(usernameTextField.text!, password: passwordTextField.text!, token: nil, completionHandlerForGetCurrentUser: { (success, result, error) in
                 
-                //                print(result)
                 if success {
-                    //                    print(result)
                     self.goToMapView()
                     
                 } else {
@@ -131,31 +125,23 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
         
         if ((error) != nil) {
             // Process error
-        } else if result.isCancelled {
-            // Handle cancellations
+            self.presentAlertContoller("Unable to login to Facebook.  Try logging in with Udacity credentials")
+            
         } else {
-//            print("User Logged In")
-//            print("Current user before getCurrentUser call is: \(StudentInformationStore.currentStudent)")
+            
             hideActivityIndicator(false)
             
             let token = FBSDKAccessToken.currentAccessToken().tokenString
             UdacityClient.sharedInstance().getCurrentUser(nil, password: nil, token: token, completionHandlerForGetCurrentUser: { (success, result, error) in
                 if success {
-//                    print("Current user after getCurrentUser call is: \(StudentInformationStore.currentStudent)")
                     self.goToMapView()
                 } else {
                     print(error)
-                    self.presentAlertContoller("Unable to login with Facebook")
-
+                    self.presentAlertContoller("Unable verify user with facebook.  Try logging in with Udacity credentials")
+                    
                 }
             })
             
-            // If you ask for multiple permissions at once, you
-            // should check if specific permissions missing
-            if result.grantedPermissions.contains("email")
-            {
-                // Do work
-            }
         }
     }
     
@@ -163,8 +149,7 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
         print("User Logged Out")
     }
     
-    func returnUserData()
-    {
+    func returnUserData() {
         let graphRequest : FBSDKGraphRequest = FBSDKGraphRequest(graphPath: "me", parameters: nil)
         graphRequest.startWithCompletionHandler({ (connection, result, error) -> Void in
             
@@ -175,16 +160,16 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
             }
             else
             {
-//                print("fetched user: \(result)")
-//                let userName : NSString = result.valueForKey("name") as! NSString
-//                print("User Name is: \(userName)")
-                //                let userEmail : NSString = result.valueForKey("email") as! NSString
-                //                print("User Email is: \(userEmail)")
+                print(" user: \(result)")
+                let userName : NSString = result.valueForKey("name") as! NSString
+                print("User Name is: \(userName)")
+                let userEmail : NSString = result.valueForKey("email") as! NSString
+                print("User Email is: \(userEmail)")
             }
         })
     }
     
-    func goToMapView(){
+    func goToMapView() {
         performUIUpdatesOnMain() {
             self.usernameTextField.text = ""
             self.passwordTextField.text = ""

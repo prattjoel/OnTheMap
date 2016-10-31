@@ -15,8 +15,6 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     @IBOutlet weak var mapView: MKMapView!
     
-    let tabVC = TabBarViewController()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -24,7 +22,6 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        self.tabVC.logoutEnabled(true)
 
         
         ParseClient.sharedInstance().getStudentLocations({ (success, result, error) in
@@ -59,9 +56,12 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                         
                     }
                     
+                    
+                    let tabVC = self.tabBarController as! TabBarViewController
+                    tabVC.navigationItem.leftBarButtonItem?.enabled = true
+                    
                     performUIUpdatesOnMain(){
                         self.mapView.addAnnotations(annotations)
-                        
 
                         if let studentRegion = StudentInformationStore.currentStudentRegion {
                             self.mapView.setRegion(studentRegion, animated: true)

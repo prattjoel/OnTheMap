@@ -9,6 +9,7 @@
 import Foundation
 struct StudentInformation {
     
+    //MARK: - Student Properties
     var firstName: String
     var lastName: String
     var latitude: Double?
@@ -18,6 +19,7 @@ struct StudentInformation {
     let objectID: String
     var uniqueKey: String
     
+    //MARK: - Student Initializer
     init(key: String, lastName: String, firstName: String) {
         self.firstName = firstName
         self.lastName = lastName
@@ -29,6 +31,7 @@ struct StudentInformation {
         uniqueKey = key
     }
     
+    //MARK: - Student Dictionary Initializer
     init(dictionary: [String: AnyObject]) {
         if let first = dictionary[ParseClient.StudentLocationKeys.FirstName] {
             
@@ -64,9 +67,9 @@ struct StudentInformation {
         } else {
             uniqueKey = "unknown unique key"
         }
-
     }
     
+    //MARK: - Set Array of Student Locations
     static func studentLocationsFromResults(results: [[String: AnyObject]]) -> [StudentInformation] {
         var locations = [StudentInformation]()
         
@@ -77,16 +80,14 @@ struct StudentInformation {
         return locations
     }
     
-    // Set the Current User
+    //MARK: - Set Current User
     func userFromResults(results: [String: AnyObject]) -> StudentInformation {
         
         var currentStudent = StudentInformation(dictionary: results)
-        
         currentStudent.firstName = results[UdacityClient.ResponseKeys.FirstName] as! String
         currentStudent.lastName = results[UdacityClient.ResponseKeys.LastName] as! String
         currentStudent.uniqueKey = results[UdacityClient.ResponseKeys.UserKey] as! String
         
         return currentStudent
-        
     }
 }

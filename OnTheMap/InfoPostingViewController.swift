@@ -15,25 +15,21 @@ import MapKit
 
 class InfoPostingViewController: UIViewController {
     
-
-
+    //MARK: - Outlets
     @IBOutlet weak var firstNameTextField: UITextField!
     @IBOutlet weak var lastNameTextField: UITextField!
     @IBOutlet weak var urlTextField: UITextField!
     @IBOutlet weak var addressTextField: UITextField!
-    
     @IBOutlet weak var submitLocation: UIButton!
     @IBOutlet weak var indicatorForGeoCoding: UIActivityIndicatorView!
     
-    var coordinate = CLLocationCoordinate2D?()
-    var objectID = String()
-    
+    //MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         indicatorForGeoCoding.hidden = true
     }
-
     
+    //MARK: - Submit Location Action
     @IBAction func submitLocation(sender: AnyObject) {
         indicatorForGeoCoding.hidden = false
         indicatorForGeoCoding.startAnimating()
@@ -54,14 +50,11 @@ class InfoPostingViewController: UIViewController {
                         if let errorMessage = error {
                             let errorCode = errorMessage._code
                             if errorCode == 8 {
-//                                print("Error code is: \(errorCode) \n")
                                 self.presentAlertContoller("Error finding student location: \(self.addressTextField.text!).  Please re-enter a valid address")
                                 self.clearTextFields()
                             } else {
                                 self.presentAlertContoller("Error posting student location to map.  Please try again later")
                                 self.clearTextFields()
-
-//                                print("error posting student location to map: \(errorMessage)")
                             }
                         }
                         
@@ -77,6 +70,12 @@ class InfoPostingViewController: UIViewController {
         }
     }
     
+    //MARK: - Cancel Action
+    @IBAction func cancelInfoPostingView(sender: AnyObject) {
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    //MARK: - Alert Method
     func presentAlertContoller(message: String) {
         let alertContoller = UIAlertController(title: "Unable Add Location", message: message, preferredStyle: .Alert)
         let okAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
@@ -87,6 +86,7 @@ class InfoPostingViewController: UIViewController {
         
     }
     
+    //MARK: - UI Reset Method
     func clearTextFields() {
         firstNameTextField.text = ""
         lastNameTextField.text = ""
@@ -94,7 +94,5 @@ class InfoPostingViewController: UIViewController {
         urlTextField.text = ""
     }
     
-    @IBAction func cancelInfoPostingView(sender: AnyObject) {
-        self.dismissViewControllerAnimated(true, completion: nil)
-    }
+
 }

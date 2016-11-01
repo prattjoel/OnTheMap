@@ -12,16 +12,16 @@ import UIKit
 class TabBarViewController: UITabBarController {
     
     
-//    @IBOutlet var logoutButton: UITabBarItem!
-    
     let fbLoginManager = FBSDKLoginManager()
-
     
+    //MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.navigationItem.leftBarButtonItem?.enabled = false
     }
+    
+    //MARK: - Logout Action
     
     @IBAction func logoutOfUdacity(sender: AnyObject) {
         showActivityIndicator(true)
@@ -31,12 +31,11 @@ class TabBarViewController: UITabBarController {
                 
                 performUIUpdatesOnMain({
                     self.fbLoginManager.logOut()
-//                    print("\(result)")
                     self.showActivityIndicator(false)
                     self.navigationController?.popToRootViewControllerAnimated(true)
                 })
             } else {
-                performUIUpdatesOnMain({ 
+                performUIUpdatesOnMain({
                     self.showActivityIndicator(false)
                 })
                 
@@ -45,6 +44,8 @@ class TabBarViewController: UITabBarController {
         }
         
     }
+    
+    //MARK: - Add Location Action
     
     @IBAction func addLocation(sender: AnyObject) {
         
@@ -57,34 +58,18 @@ class TabBarViewController: UITabBarController {
         
     }
     
-    func showActivityIndicator(start: Bool) {
-        let indicator: UIActivityIndicatorView = UIActivityIndicatorView()
-
-        indicator.frame = CGRectMake(0.0, 0.0, 40.0, 40.0)
-        indicator.center = self.view.center
-        indicator.hidesWhenStopped = true
-        indicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
-
-        
-        if start {
-            self.view.addSubview(indicator)
-//            print("indicator started")
-            indicator.startAnimating()
-        } else {
-//            print("indicator stopped")
-            indicator.stopAnimating()
-        }
-    }
+    
+    //MARK: - Present View Controller Methods
     
     func presentAlertContoller() {
-        let alertContoller = UIAlertController(title: "Change location?", message: "Are you sure you want to change your location?", preferredStyle: .Alert)
-        let changeLocationAction = UIAlertAction(title: "Yes", style: .Default) { (action) in
+        let alertContoller = UIAlertController(title: "About to Change Location", message: "Are you sure you want to overwrite your location?", preferredStyle: .Alert)
+        let changeLocationAction = UIAlertAction(title: "Overwrite", style: .Default) { (action) in
             self.presentInfoPostingView()
         }
         
         alertContoller.addAction(changeLocationAction)
         
-        let keepLocationAction = UIAlertAction(title: "No", style: .Default, handler: nil)
+        let keepLocationAction = UIAlertAction(title: "Cancel", style: .Default, handler: nil)
         
         alertContoller.addAction(keepLocationAction)
         
@@ -107,7 +92,25 @@ class TabBarViewController: UITabBarController {
                 studentInfo = student
             }
         }
-        //        print(studentInfo)
         return (studentInfo)
+    }
+    
+    //MARK: - Activity Indicator Method
+    
+    func showActivityIndicator(start: Bool) {
+        let indicator: UIActivityIndicatorView = UIActivityIndicatorView()
+        
+        indicator.frame = CGRectMake(0.0, 0.0, 40.0, 40.0)
+        indicator.center = self.view.center
+        indicator.hidesWhenStopped = true
+        indicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
+        
+        
+        if start {
+            self.view.addSubview(indicator)
+            indicator.startAnimating()
+        } else {
+            indicator.stopAnimating()
+        }
     }
 }

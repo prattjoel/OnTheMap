@@ -15,23 +15,20 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     @IBOutlet weak var mapView: MKMapView!
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-    }
+    //MARK: - View Life Cycle
+    
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-
+        
         
         ParseClient.sharedInstance().getStudentLocations({ (success, result, error) in
             if success {
                 
-                performUIUpdatesOnMain({ 
+                performUIUpdatesOnMain({
                     let previousAnnotations = self.mapView.annotations
                     self.mapView.removeAnnotations(previousAnnotations)
                 })
-                
                 
                 if let studentInforesult = result {
                     StudentInformationStore.sharedInstance.studentInformationCollection = studentInforesult
@@ -56,24 +53,11 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                         
                     }
                     
-                    
                     let tabVC = self.tabBarController as! TabBarViewController
                     tabVC.navigationItem.leftBarButtonItem?.enabled = true
                     
                     performUIUpdatesOnMain(){
                         self.mapView.addAnnotations(annotations)
-
-                        if let studentRegion = StudentInformationStore.currentStudentRegion {
-                            self.mapView.setRegion(studentRegion, animated: true)
-
-                            StudentInformationStore.currentStudentRegion = nil
-                            
-                        } else {
-//                            print("no region given")
-
-                        }
-                        
-                        
                     }
                 } else {
                     performUIUpdatesOnMain({
@@ -88,10 +72,26 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             }
         })
         
-        
+        if let studentRegion = StudentInformationStore.currentStudentRegion {
+            
+            self.mapView.setRegion(studentRegion, animated: true)
+            
+            StudentInformationStore.currentStudentRegion = nil
+        }
+
     }
     
+    //MARK: - Alert Method
+    func presentAlertContoller(message: String) {
+        let alertContoller = UIAlertController(title: "No Student Locations", message: message, preferredStyle: .Alert)
+        let okAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
+        
+        alertContoller.addAction(okAction)
+        
+        presentViewController(alertContoller, animated: true, completion: nil)
+    }
     
+    //MARK: - MapView Delegate Methods
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
         let reuseId = "pin"
         
@@ -110,7 +110,6 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         
     }
     
-    
     func mapView(mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         if control == view.rightCalloutAccessoryView {
             let app = UIApplication.sharedApplication()
@@ -119,17 +118,4 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             }
         }
     }
-    
-    func presentAlertContoller(message: String) {
-        let alertContoller = UIAlertController(title: "No Student Locations", message: message, preferredStyle: .Alert)
-        let okAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
-        
-        alertContoller.addAction(okAction)
-        
-        presentViewController(alertContoller, animated: true, completion: nil)
-        
-    }
-    
-    
-    
 }

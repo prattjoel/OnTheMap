@@ -11,6 +11,7 @@ import Foundation
 
 extension UdacityClient {
     
+    //MARK: - User Verification Methods
     func getCurrentUser(username: String?, password: String?, token: String?, completionHandlerForGetCurrentUser: (success: Bool, result: [String: AnyObject]?, error: NSError?) -> Void) {
         
         loginRequest(username, password: password, token: token) { (success, result, error) in
@@ -34,14 +35,11 @@ extension UdacityClient {
                 completionHandlerForGetUserRequest(success: false, result: nil, error: error)
                 return
             }
-//            print(" \n Result from getUserRequest: \n \(result)")
             
             guard let user = result[ResponseKeys.User] as? [String: AnyObject] else {
                 completionHandlerForGetUserRequest(success: false, result: nil, error: NSError(domain: "getUserRequest parsing", code: 0, userInfo: [NSLocalizedDescriptionKey : "Could not parse getUserRequest"]))
                 return
             }
-            
-//            print("user info from getUserRequest: \(user)")
             
             guard let key = user[ResponseKeys.UserKey] as? String else {
                 completionHandlerForGetUserRequest(success: false, result: nil, error: NSError(domain: "getUserRequest key", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not find user key"]))
@@ -53,28 +51,18 @@ extension UdacityClient {
                 return
             }
             
-            
             guard let last = user[ResponseKeys.LastName] as? String else {
                 completionHandlerForGetUserRequest(success: false, result: nil, error: NSError(domain: "getUserRequest last name", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not find user last name"]))
                 return
             }
             
-            
             StudentInformationStore.currentStudent = StudentInformation.init(key: key, lastName: last, firstName: first)
             
-//            print("The current student is: \n \(StudentInformationStore.currentStudent) \n")
-            
             completionHandlerForGetUserRequest(success: true, result: user, error: nil)
-            
-//            guard let user = result[ResponseKeys.User] as? [[String: AnyObject]] else {
-//                completionHandlerForGetUserRequest(success: false, result: nil, error: NSError(domain: "getUserRequest parsing", code: 0, userInfo: [NSLocalizedDescriptionKey : "Could not find key: \(ResponseKeys.User)"]))
-//            }
-            
-            
         }
     }
     
-    // Login
+    // Login Request
     func loginRequest(username: String?, password: String?, token: String?, completionHandlerForLogin: (success: Bool, result: String?, error: NSError?) -> Void) {
         let parameters: [String: AnyObject]? = nil
         let method = UdacityClient.Methods.Session
@@ -88,7 +76,6 @@ extension UdacityClient {
             body = "{\"udacity\": {\"username\": \"\(name)\", \"password\": \"\(pWord)\"}}"
             }
         }
-//        print("json body: \n \(body)")
         
         taskForPostMethod(method, parameters: parameters, jsonBody: body) { (result, error) in
             
@@ -97,28 +84,21 @@ extension UdacityClient {
                 return
             }
             
-//            print("\n Results from udacity login: \(result) \n")
-
-            
             guard let result = result[UdacityClient.ResponseKeys.AccountInfo] as? [String:AnyObject] else {
                 completionHandlerForLogin(success: false, result: nil, error: NSError(domain: "loginRequest parsing", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not parse loginRequest"]))
                 return
             }
             
-            
             guard let accountKey = result[UdacityClient.ResponseKeys.UserKey] as? String else {
                 completionHandlerForLogin(success: false, result: nil, error: NSError(domain: "loginRequest parsing", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not parse loginRequest for user credential"]))
                 return
             }
-
             
             completionHandlerForLogin(success: true, result: accountKey, error: nil)
-            
-            
         }
     }
     
-    // Logout
+    //MARK: - Logout Request
     func logoutRequest(completionHandlerForLogout: (success: Bool, result: [String: AnyObject]?, error: NSError?) -> Void) {
         let parameters = [String:AnyObject]()
         let method = UdacityClient.Methods.Session
@@ -137,12 +117,6 @@ extension UdacityClient {
             completionHandlerForLogout(success: true, result: result, error: nil)
         }
     }
-    
-//    func getStudentCresentials(id: String, completionHandlerForStudentCredentials: (success: Bool, result: StudentInformation?, error: NSError?) -> Void) {
-//        
-//    }
-    
-    
 }
 
 

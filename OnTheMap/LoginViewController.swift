@@ -15,6 +15,8 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var loginIndicator: UIActivityIndicatorView!
     @IBOutlet weak var fbLoginButton: FBSDKLoginButton!
+    @IBOutlet weak var udacityLogoView: UIImageView!
+    @IBOutlet weak var loginPromptLabel: UILabel!
     
     // MARK: - View Life Cycle
     
@@ -26,6 +28,7 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
         
         if FBSDKAccessToken.currentAccessToken() != nil {
             hideActivityIndicator(false)
+            setUIEnabled(false)
             let token = FBSDKAccessToken.currentAccessToken().tokenString
             UdacityClient.sharedInstance().getCurrentUser(nil, password: nil, token: token, completionHandlerForGetCurrentUser: { (success, result, error) in
                 if success {
@@ -45,9 +48,15 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
         
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        usernameTextField.attributedPlaceholder = NSAttributedString(string: "   Email", attributes: [NSForegroundColorAttributeName : UIColor.whiteColor()])
+        passwordTextField.attributedPlaceholder = NSAttributedString(string: "   Password", attributes: [NSForegroundColorAttributeName : UIColor.whiteColor()])
+    }
     
+    // MARK: - Login Action
     
-    @IBAction func loginButton(sender: AnyObject) {
+    @IBAction func udacityLoginButton(sender: AnyObject) {
         
         hideActivityIndicator(false)
         setUIEnabled(false)
@@ -86,27 +95,29 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
         }
     }
     
-    func presentAlertContoller(message: String) {
-        let alertContoller = UIAlertController(title: "Unable to Login", message: message, preferredStyle: .Alert)
-        let okAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
-        
-        alertContoller.addAction(okAction)
-        
-        presentViewController(alertContoller, animated: true, completion: nil)
-        
-    }
+    // MARK: - UI Methods
     
-    // Set UI
     private func setUIEnabled(enabled: Bool) {
         usernameTextField.enabled = enabled
         passwordTextField.enabled = enabled
         loginButton.enabled = enabled
+        fbLoginButton.enabled = enabled
         
         // adjust login button alpha
         if enabled {
             loginButton.alpha = 1.0
+            usernameTextField.alpha = 1.0
+            passwordTextField.alpha = 1.0
+            fbLoginButton.alpha = 1.0
+            udacityLogoView.alpha = 1.0
+            loginPromptLabel.alpha = 1.0
         } else {
             loginButton.alpha = 0.5
+            usernameTextField.alpha = 0.5
+            passwordTextField.alpha = 0.5
+            fbLoginButton.alpha = 0.5
+            udacityLogoView.alpha = 0.5
+            loginPromptLabel.alpha = 0.5
         }
     }
     
@@ -119,17 +130,42 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
         }
     }
     
-    // Facebook Delegate Methods
+    //MARK: - View Methods
+    func goToMapView() {
+        performUIUpdatesOnMain() {
+            self.usernameTextField.text = ""
+            self.passwordTextField.text = ""
+            self.hideActivityIndicator(true)
+            let controller = self.storyboard!.instantiateViewControllerWithIdentifier("tabBarController") as! UITabBarController
+            self.navigationController?.pushViewController(controller, animated: true)
+        }
+    }
+    
+    func presentAlertContoller(message: String) {
+        let alertContoller = UIAlertController(title: "Unable to Login", message: message, preferredStyle: .Alert)
+        let okAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
+        
+        alertContoller.addAction(okAction)
+        
+        presentViewController(alertContoller, animated: true, completion: nil)
+        
+    }
+    
+    
+    // MARK: - Facebook Delegate Methods
     
     func loginButton(loginButton: FBSDKLoginButton!, didCompleteWithResult result: FBSDKLoginManagerLoginResult!, error: NSError!) {
         
         if ((error) != nil) {
             // Process error
             self.presentAlertContoller("Unable to login to Facebook.  Try logging in with Udacity credentials")
+            hideActivityIndicator(true)
+            setUIEnabled(true)
             
         } else {
             
             hideActivityIndicator(false)
+            setUIEnabled(false)
             
             let token = FBSDKAccessToken.currentAccessToken().tokenString
             UdacityClient.sharedInstance().getCurrentUser(nil, password: nil, token: token, completionHandlerForGetCurrentUser: { (success, result, error) in
@@ -149,35 +185,8 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
         print("User Logged Out")
     }
     
-    func returnUserData() {
-        let graphRequest : FBSDKGraphRequest = FBSDKGraphRequest(graphPath: "me", parameters: nil)
-        graphRequest.startWithCompletionHandler({ (connection, result, error) -> Void in
-            
-            if ((error) != nil)
-            {
-                // Process error
-                print("Error: \(error)")
-            }
-            else
-            {
-                print(" user: \(result)")
-                let userName : NSString = result.valueForKey("name") as! NSString
-                print("User Name is: \(userName)")
-                let userEmail : NSString = result.valueForKey("email") as! NSString
-                print("User Email is: \(userEmail)")
-            }
-        })
-    }
     
-    func goToMapView() {
-        performUIUpdatesOnMain() {
-            self.usernameTextField.text = ""
-            self.passwordTextField.text = ""
-            self.hideActivityIndicator(true)
-            let controller = self.storyboard!.instantiateViewControllerWithIdentifier("tabBarController") as! UITabBarController
-            self.navigationController?.pushViewController(controller, animated: true)
-        }
-    }
+    
 }
 
 

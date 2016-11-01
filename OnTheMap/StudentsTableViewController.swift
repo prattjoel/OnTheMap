@@ -10,14 +10,16 @@
 import UIKit
 
 class StudentsTableViewController: UITableViewController {
-        
+    
+    
+    //MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
         
     }
     
-    
+    //MARK: - TableView Delegate Methods
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if StudentInformationStore.sharedInstance.studentInformationCollection.count == 0 {
             presentAlertContoller("Could not find student locations")
@@ -37,9 +39,8 @@ class StudentsTableViewController: UITableViewController {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let item = StudentInformationStore.sharedInstance.studentInformationCollection[indexPath.row]
         if let urlString = item.mediaURL {
-            print(urlString)
             let app = UIApplication.sharedApplication()
-
+            
             if urlString.hasPrefix("http://") || urlString.hasPrefix("https://") {
                 let url = NSURL(string: urlString)
                 app.openURL(url!)
@@ -54,6 +55,7 @@ class StudentsTableViewController: UITableViewController {
         }
     }
     
+    //MARK: - Alert Method
     func presentAlertContoller(message: String) {
         let alertContoller = UIAlertController(title: "No Student Locations", message: message, preferredStyle: .Alert)
         let okAction = UIAlertAction(title: "OK", style: .Default, handler: {

@@ -11,14 +11,13 @@ extension ParseClient {
     struct Constants {
         static let AppID: String = "QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr"
         static let RESTApiKey : String = "QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY"
-        
-    //MARK: URLS
         static let ApiScheme = "https"
         static let ApiHost = "parse.udacity.com"
         static let ApiPath = "/parse/classes/StudentLocation/"
         static let StudentLocationURL = "https://parse.udacity.com/parse/classes/StudentLocation"
     }
     
+    //MARK: Methods
     struct Methods {
         static let ObjectID = "/parse/classes/StudentLocation/<objectId>"
     }
@@ -37,9 +36,9 @@ extension ParseClient {
         static let DateUpdated = "updatedAt"
         static let AccessControlList = "ACL"
         static let LocationResults = "results"
-        
     }
     
+    //MARK: Parameters
     struct StudentLocationParameters {
         static let MaxStudentLocations = "limit"
         static let Skip = "skip"

@@ -8,9 +8,8 @@
 
 extension UdacityClient {
     
+    //MARK: URLs
     struct Constants {
-        
-        //MARK: URLs
         static let ApiScheme = "https"
         static let ApiHost = "www.udacity.com"
         static let ApiPath = "/api"
@@ -29,6 +28,7 @@ extension UdacityClient {
         static let Password = "password"
     }
     
+    //MARK: - Response Keys
     struct ResponseKeys {
         static let ID = "id"
         static let SessionInfo = "session"
@@ -39,5 +39,4 @@ extension UdacityClient {
         static let FirstName = "first_name"
         static let LastName = "last_name"
     }
-    
 }

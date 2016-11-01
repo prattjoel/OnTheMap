@@ -10,7 +10,6 @@ import Foundation
 
 class UdacityClient: NSObject {
     
-    var sessionID: String? = nil
     //MARK: Shared Session
     var sharedSession = NSURLSession.sharedSession()
     
@@ -19,41 +18,30 @@ class UdacityClient: NSObject {
         
         let url = udacityURLFromParameters(parameters, withPathExtension: method)
         let request = requestSetup(url, httpMethod: "Get")
-//        request.addValue("application/json", forHTTPHeaderField: "Accept")
-//        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        
         let task = taskSetup(request, domain: "taskForGetMethod", completionHandler: completionHandlerForGET)
         task.resume()
         
         return task
-        
     }
     
     //MARK: - POST
     func taskForPostMethod(method: String, parameters: [String:AnyObject]?, jsonBody: String, completionHandlerForPOST: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionTask {
         
         let url = udacityURLFromParameters(parameters, withPathExtension: method)
-//        print("url for login:\n \(url)")
         let request = requestSetup(url, httpMethod: "POST")
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.HTTPBody = jsonBody.dataUsingEncoding(NSUTF8StringEncoding)
-//        print("\n request htttp method in taskForPostMethod is: \n \(request.HTTPMethod)")
-        
-//        print("request for login: \n \(request)")
-        
         let task = taskSetup(request, domain: "taskForPostMethod", completionHandler: completionHandlerForPOST)
         task.resume()
         
         return task
-        
     }
     
     //MARK: - DELETE
     func taskForDELETMethod(method: String, parameters: [String:AnyObject], completionHandlerForDELETE: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionTask {
         
         let url = udacityURLFromParameters(parameters, withPathExtension: method)
-//        print("url from deleteMethod is: \(url)")
         let request = requestSetup(url, httpMethod: "DELETE")
         var xsrfCookie: NSHTTPCookie? = nil
         let sharedCookieStorage = NSHTTPCookieStorage.sharedHTTPCookieStorage()
@@ -68,25 +56,19 @@ class UdacityClient: NSObject {
             request.setValue(xsrfCookie.value, forHTTPHeaderField: "X-XSRF-TOKEN")
         }
         
-//        print("request from deleteMethod: \(request)")
-        
         let task = taskSetup(request, domain: "taskForDELETEMethod", completionHandler: completionHandlerForDELETE)
         task.resume()
         
         return task
-        
     }
     
-    
-    // MARK: - Create URL, Check Errors and Setup Request
-    
+    // MARK: - Request Setup
     private func udacityURLFromParameters(parameters: [String: AnyObject]?, withPathExtension: String? = nil) -> NSURL {
         
         let components = NSURLComponents()
         components.scheme = Constants.ApiScheme
         components.host = Constants.ApiHost
         components.path = Constants.ApiPath + (withPathExtension ?? "")
-        
         
         if let params = parameters {
             components.queryItems = [NSURLQueryItem]()
@@ -99,12 +81,10 @@ class UdacityClient: NSObject {
         return components.URL!
     }
     
-    
     // Check for errors when making request
     private func checkErrors(domain: String, data: NSData?, error: NSError?, response: NSURLResponse?, completionHandler: (result: AnyObject!, error: NSError?) -> Void) {
         
         func sendError(error: String) {
-            //            print("sendError method: \n \(error)")
             let userInfo = [NSLocalizedDescriptionKey : error]
             completionHandler(result: nil, error: NSError(domain: domain, code: 1, userInfo: userInfo))
         }
@@ -114,7 +94,6 @@ class UdacityClient: NSObject {
             return
         }
         
-        /* GUARD: Did we get a successful 2XX response? */
         guard let statusCode = (response as? NSHTTPURLResponse)?.statusCode where statusCode >= 200 && statusCode <= 299 else {
             let statCode = (response as? NSHTTPURLResponse)?.statusCode
             if let code = statCode {
@@ -127,26 +106,18 @@ class UdacityClient: NSObject {
             
             return
         }
-//        print("Response from login: \n \(response)")
         
-//        print("Status code: \(statusCode)")
-        
-        /* GUARD: Was there any data returned? */
         guard let data = data else {
             sendError("No data was returned by the request!")
             return
         }
         
-        //        print("response before serialization: \n \(data)")
-        
         let newData = data.subdataWithRange(NSMakeRange(5, data.length - 5))
         
         self.convertDatawithCompletionHandler(newData, completionHandlerForConvertData: completionHandler)
-        
-        
-        
     }
     
+    // Parse Data
     private func convertDatawithCompletionHandler(data: NSData, completionHandlerForConvertData: (result: AnyObject!, error: NSError?) -> Void) {
         var parsedResult: AnyObject!
         do {
@@ -160,14 +131,11 @@ class UdacityClient: NSObject {
         
     }
     
-    
-    
     // Setup Request
     private func requestSetup(url: NSURL, httpMethod: String) -> NSMutableURLRequest {
         
         let request = NSMutableURLRequest(URL: url)
         request.HTTPMethod = httpMethod
-//        print("\n request htttp method is: \n \(request.HTTPMethod)")
         
         return request
     }
@@ -179,13 +147,11 @@ class UdacityClient: NSObject {
         let task = session.dataTaskWithRequest(request) { (data, response, error) in
             
             self.checkErrors(domain, data: data, error: error, response: response, completionHandler: completionHandler)
-            
-            
         }
         return task
     }
     
-    
+    //MARK: - Create UdacityClient Shared Instance
     class func sharedInstance() -> UdacityClient {
         struct Singleton {
             static var sharedInstance = UdacityClient()

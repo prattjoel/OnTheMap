@@ -69,7 +69,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                             StudentInformationStore.currentStudentRegion = nil
                             
                         } else {
-                            print("no region given")
+//                            print("no region given")
 
                         }
                         

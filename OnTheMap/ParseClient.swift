@@ -52,7 +52,7 @@ class ParseClient: NSObject {
         let request = requestSetup(url, httpMethod: "PUT")
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.HTTPBody = jsonBody.dataUsingEncoding(NSUTF8StringEncoding)
-        print(request)
+//        print(request)
         let task = taskSetup(request, domain: "taskForPutMethod", completionHandler: completionHandlerForPut)
         
         task.resume()

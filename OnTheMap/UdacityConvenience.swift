@@ -53,14 +53,12 @@ extension UdacityClient {
                 return
             }
             
-            print("first name is: \(first)")
             
             guard let last = user[ResponseKeys.LastName] as? String else {
                 completionHandlerForGetUserRequest(success: false, result: nil, error: NSError(domain: "getUserRequest last name", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not find user last name"]))
                 return
             }
             
-            print("last name is: \(last)")
             
             StudentInformationStore.currentStudent = StudentInformation.init(key: key, lastName: last, firstName: first)
             
@@ -99,7 +97,7 @@ extension UdacityClient {
                 return
             }
             
-            print("\n Results from udacity login: \(result) \n")
+//            print("\n Results from udacity login: \(result) \n")
 
             
             guard let result = result[UdacityClient.ResponseKeys.AccountInfo] as? [String:AnyObject] else {

@@ -47,8 +47,14 @@ class TabBarViewController: UITabBarController {
     }
     
     @IBAction func addLocation(sender: AnyObject) {
-        let controller = storyboard?.instantiateViewControllerWithIdentifier("InfoPostingViewController") as! InfoPostingViewController
-        self.presentViewController(controller, animated: true, completion: nil)
+        
+        let student = isRepeatUser()
+        if  student != nil {
+            presentAlertContoller()
+        } else {
+            presentInfoPostingView()
+        }
+        
     }
     
     func showActivityIndicator(start: Bool) {
@@ -62,15 +68,46 @@ class TabBarViewController: UITabBarController {
         
         if start {
             self.view.addSubview(indicator)
-            print("indicator started")
+//            print("indicator started")
             indicator.startAnimating()
         } else {
-            print("indicator stopped")
+//            print("indicator stopped")
             indicator.stopAnimating()
         }
     }
     
-    func logoutEnabled(enabled: Bool) {
-        self.navigationItem.leftBarButtonItem?.enabled = enabled
+    func presentAlertContoller() {
+        let alertContoller = UIAlertController(title: "Change location?", message: "Are you sure you want to change your location?", preferredStyle: .Alert)
+        let changeLocationAction = UIAlertAction(title: "Yes", style: .Default) { (action) in
+            self.presentInfoPostingView()
+        }
+        
+        alertContoller.addAction(changeLocationAction)
+        
+        let keepLocationAction = UIAlertAction(title: "No", style: .Default, handler: nil)
+        
+        alertContoller.addAction(keepLocationAction)
+        
+        presentViewController(alertContoller, animated: true, completion: nil)
+        
+    }
+    
+    func presentInfoPostingView() {
+        let controller = self.storyboard?.instantiateViewControllerWithIdentifier("InfoPostingViewController") as! InfoPostingViewController
+        self.presentViewController(controller, animated: true, completion: nil)
+    }
+    
+    func isRepeatUser() -> StudentInformation? {
+        var studentInfo: StudentInformation?
+        
+        
+        for (_, student) in StudentInformationStore.sharedInstance.studentInformationCollection.enumerate() {
+            
+            if student.uniqueKey == StudentInformationStore.currentStudent?.uniqueKey {
+                studentInfo = student
+            }
+        }
+        //        print(studentInfo)
+        return (studentInfo)
     }
 }

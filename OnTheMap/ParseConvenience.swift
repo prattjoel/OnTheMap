@@ -15,7 +15,7 @@ extension ParseClient {
     func forwardGeocoding(addressString address: String, firstName first: String, lastName last: String, mediaURLString url: String, completionHandlerForGeocoding: (success: Bool, result: String?, error: ErrorType?) -> Void) {
         
         CLGeocoder().geocodeAddressString(address) { (placemarks, error) in
-            print("address for geocoding is:\n \(address)")
+//            print("address for geocoding is:\n \(address)")
             if error != nil {
                 print("Geocoding error: \(error)")
                 completionHandlerForGeocoding(success: false, result: nil, error: error)
@@ -40,12 +40,12 @@ extension ParseClient {
                     print("no coordinates")
                 }
                 
-                if placemark?.areasOfInterest?.count > 0 {
-                    let areaOfInterest = placemark!.areasOfInterest![0]
-                    print(areaOfInterest)
-                } else {
-                    print("no area of interest")
-                }
+//                if placemark?.areasOfInterest?.count > 0 {
+//                    let areaOfInterest = placemark!.areasOfInterest![0]
+////                    print(areaOfInterest)
+//                } else {
+//                    print("no area of interest")
+//                }
             }
         }
     }
@@ -56,29 +56,19 @@ extension ParseClient {
             
             let id = student.objectID
             let uniqueKey = student.uniqueKey
-            print("obj ID and uniqueKey are: \(id), \(uniqueKey) after isRepeatUser call")
+//            print("obj ID and uniqueKey are: \(id), \(uniqueKey) after isRepeatUser call")
             putStudentLocation(id, firstName: first, lastName: last, key: uniqueKey, mediaURL: url, locationString: address, latitude: lat, longitude: long, completionHandlerForPutStudentLocation: completionHandlerForAdduserLocation)
         } else {
             print("person not found")
             if let student = StudentInformationStore.currentStudent {
             postStudentLocation(first, lastName: last, key: student.uniqueKey, mediaURL: url, locationString: address, latitude: lat, longitude: long,  completionHandlerForPostStudentLocations: completionHandlerForAdduserLocation)
+            } else {
+                print("no current student found")
+                return
             }
         }
     }
     
-    func isRepeatUser() -> StudentInformation? {
-        var studentInfo: StudentInformation?
-        
-        
-        for (_, student) in StudentInformationStore.sharedInstance.studentInformationCollection.enumerate() {
-            
-            if student.uniqueKey == StudentInformationStore.currentStudent?.uniqueKey {
-                studentInfo = student
-            }
-        }
-        print(studentInfo)
-        return (studentInfo)
-    }
     
     
     // Get location of students
@@ -155,7 +145,7 @@ extension ParseClient {
                 completionHandlerForPostStudentLocations(success: false, result: nil, error: NSError(domain: "postStudentLocations parsing", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not parse postStudentLocations"]))
                 return
             }
-            print("\(result)")
+//            print("\(result)")
             
             let objectID = result[StudentLocationKeys.ObjectID] as? String
             
@@ -180,7 +170,7 @@ extension ParseClient {
                 return
             }
             
-            print(result)
+//            print(result)
             
             let update = result["updatedAt"] as? String
             completionHandlerForPutStudentLocation(success: true, result: update, error: nil)
@@ -188,6 +178,20 @@ extension ParseClient {
             
         }
         
+    }
+    
+    func isRepeatUser() -> StudentInformation? {
+        var studentInfo: StudentInformation?
+        
+        
+        for (_, student) in StudentInformationStore.sharedInstance.studentInformationCollection.enumerate() {
+            
+            if student.uniqueKey == StudentInformationStore.currentStudent?.uniqueKey {
+                studentInfo = student
+            }
+        }
+        //        print(studentInfo)
+        return (studentInfo)
     }
     
 }

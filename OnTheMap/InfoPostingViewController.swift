@@ -16,8 +16,7 @@ import MapKit
 class InfoPostingViewController: UIViewController {
     
     //MARK: - Outlets
-    @IBOutlet weak var firstNameTextField: UITextField!
-    @IBOutlet weak var lastNameTextField: UITextField!
+
     @IBOutlet weak var urlTextField: UITextField!
     @IBOutlet weak var addressTextField: UITextField!
     @IBOutlet weak var submitLocation: UIButton!
@@ -34,8 +33,8 @@ class InfoPostingViewController: UIViewController {
         indicatorForGeoCoding.hidden = false
         indicatorForGeoCoding.startAnimating()
         
-        if addressTextField.text != "" && firstNameTextField.text != "" && lastNameTextField.text != "" {
-            ParseClient.sharedInstance().forwardGeocoding(addressString: addressTextField.text!, firstName: firstNameTextField.text!, lastName: lastNameTextField.text!, mediaURLString: urlTextField.text!,completionHandlerForGeocoding: { (success, result, error) in
+        if addressTextField.text != "" && urlTextField.text != "" {
+            ParseClient.sharedInstance().forwardGeocoding(addressString: addressTextField.text!, mediaURLString: urlTextField.text!,completionHandlerForGeocoding: { (success, result, error) in
                 if success {
                     
                     performUIUpdatesOnMain({
@@ -75,8 +74,6 @@ class InfoPostingViewController: UIViewController {
     
     //MARK: - UI Reset Method
     func clearTextFields() {
-        firstNameTextField.text = ""
-        lastNameTextField.text = ""
         addressTextField.text = ""
         urlTextField.text = ""
     }

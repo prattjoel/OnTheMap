@@ -16,7 +16,7 @@ extension ParseClient {
     //MARK: - Adding Student Location
     
     // Gecode Student Location
-    func forwardGeocoding(addressString address: String, firstName first: String, lastName last: String, mediaURLString url: String, completionHandlerForGeocoding: (success: Bool, result: String?, error: ErrorType?) -> Void) {
+    func forwardGeocoding(addressString address: String, mediaURLString url: String, completionHandlerForGeocoding: (success: Bool, result: String?, error: ErrorType?) -> Void) {
         
         CLGeocoder().geocodeAddressString(address) { (placemarks, error) in
             if error != nil {
@@ -24,7 +24,6 @@ extension ParseClient {
                 completionHandlerForGeocoding(success: false, result: nil, error: error)
                 return
             }
-            
             
             if placemarks?.count > 0 {
                 let placemark = placemarks?[0]
@@ -36,7 +35,7 @@ extension ParseClient {
                     let region = MKCoordinateRegion(center: coordinate, span:MKCoordinateSpan(latitudeDelta: 1, longitudeDelta: 1))
                     StudentInformationStore.currentStudentRegion = region
                     
-                    self.addUserLocation(firstName: first, lastName: last, addressString: address, mediaURLString: url, latitude: studentLat, longitude: studentLong, completionHandlerForAdduserLocation: completionHandlerForGeocoding)
+                    self.addUserLocation(addressString: address, mediaURLString: url, latitude: studentLat, longitude: studentLong, completionHandlerForAdduserLocation: completionHandlerForGeocoding)
                     
                     
                 } else {
@@ -47,17 +46,17 @@ extension ParseClient {
     }
     
     // Add student location to map
-    func addUserLocation(firstName first: String, lastName last: String, addressString address: String, mediaURLString url: String, latitude lat: Double, longitude long: Double, completionHandlerForAdduserLocation: (success: Bool, result: String?, error: ErrorType?) -> Void){
+    func addUserLocation(addressString address: String, mediaURLString url: String, latitude lat: Double, longitude long: Double, completionHandlerForAdduserLocation: (success: Bool, result: String?, error: ErrorType?) -> Void){
         let studentInfo = self.isRepeatUser()
         if let student = studentInfo {
             
             let id = student.objectID
             let uniqueKey = student.uniqueKey
-            putStudentLocation(id, firstName: first, lastName: last, key: uniqueKey, mediaURL: url, locationString: address, latitude: lat, longitude: long, completionHandlerForPutStudentLocation: completionHandlerForAdduserLocation)
+            putStudentLocation(id, key: uniqueKey, mediaURL: url, locationString: address, latitude: lat, longitude: long, completionHandlerForPutStudentLocation: completionHandlerForAdduserLocation)
         } else {
             print("person not found")
             if let student = StudentInformationStore.currentStudent {
-                postStudentLocation(first, lastName: last, key: student.uniqueKey, mediaURL: url, locationString: address, latitude: lat, longitude: long,  completionHandlerForPostStudentLocations: completionHandlerForAdduserLocation)
+                postStudentLocation(student.uniqueKey, mediaURL: url, locationString: address, latitude: lat, longitude: long,  completionHandlerForPostStudentLocations: completionHandlerForAdduserLocation)
             } else {
                 print("no current student found")
                 return
@@ -87,6 +86,8 @@ extension ParseClient {
             }
             
             let studentLocations = StudentInformation.studentLocationsFromResults(result)
+            
+//            print("Current Student locations: \(studentLocations)")
             
             completionHandlerForGetStudentLocations(success: true, result: studentLocations, error: nil)
         }
@@ -118,47 +119,67 @@ extension ParseClient {
     }
     
     //MARK: - Post Location of a First Time Student
-    func postStudentLocation(firstName: String, lastName: String, key: String, mediaURL: String, locationString: String, latitude lat: Double, longitude long: Double,  completionHandlerForPostStudentLocations: (success: Bool, result: String?, error: ErrorType?) -> Void) {
+    func postStudentLocation(key: String, mediaURL: String, locationString: String, latitude lat: Double, longitude long: Double,  completionHandlerForPostStudentLocations: (success: Bool, result: String?, error: ErrorType?) -> Void) {
         
         let parameters = [String: AnyObject]()
         let method = ""
-        let body = "{\"uniqueKey\": \"\(key)\", \"firstName\": \"\(firstName)\", \"lastName\": \"\(lastName)\",\"mapString\": \"\(locationString)\", \"mediaURL\": \"\(mediaURL)\",\"latitude\": \(lat), \"longitude\": \(long)}"
-        taskForPostMethod(method, parameters: parameters, jsonBody: body) { (result, error) in
-            guard (error == nil) else {
-                completionHandlerForPostStudentLocations(success: false, result: nil, error: error)
-                return
+        
+        if let student = StudentInformationStore.currentStudent {
+            let first = student.firstName
+            let last = student.lastName
+//            print("Current Student name: \(first) \(last)")
+            
+            
+            let body = "{\"uniqueKey\": \"\(key)\", \"firstName\": \"\(first)\", \"lastName\": \"\(last)\",\"mapString\": \"\(locationString)\", \"mediaURL\": \"\(mediaURL)\",\"latitude\": \(lat), \"longitude\": \(long)}"
+            taskForPostMethod(method, parameters: parameters, jsonBody: body) { (result, error) in
+                guard (error == nil) else {
+                    completionHandlerForPostStudentLocations(success: false, result: nil, error: error)
+                    return
+                }
+                
+                guard let result = result as? [String:AnyObject] else {
+                    completionHandlerForPostStudentLocations(success: false, result: nil, error: NSError(domain: "postStudentLocations parsing", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not parse postStudentLocations"]))
+                    return
+                }
+                
+                let objectID = result[StudentLocationKeys.ObjectID] as? String
+                
+                completionHandlerForPostStudentLocations(success: true, result: objectID, error: nil)
             }
-            
-            guard let result = result as? [String:AnyObject] else {
-                completionHandlerForPostStudentLocations(success: false, result: nil, error: NSError(domain: "postStudentLocations parsing", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not parse postStudentLocations"]))
-                return
-            }
-            
-            let objectID = result[StudentLocationKeys.ObjectID] as? String
-            
-            completionHandlerForPostStudentLocations(success: true, result: objectID, error: nil)
+        } else {
+            print("no current student")
         }
     }
     
     //MARK: - Overwrite Location of Current Student
-    func putStudentLocation(objectID: String, firstName: String, lastName: String, key: String, mediaURL: String, locationString: String, latitude lat: Double, longitude long: Double,  completionHandlerForPutStudentLocation: (success: Bool, result: String?, error: ErrorType?) -> Void) {
+    func putStudentLocation(objectID: String, key: String, mediaURL: String, locationString: String, latitude lat: Double, longitude long: Double,  completionHandlerForPutStudentLocation: (success: Bool, result: String?, error: ErrorType?) -> Void) {
         let parameters = [String: AnyObject]()
-        let body = "{\"uniqueKey\": \"\(key)\", \"firstName\": \"\(firstName)\", \"lastName\": \"\(lastName)\",\"mapString\": \"\(locationString)\", \"mediaURL\": \"\(mediaURL)\",\"latitude\": \(lat), \"longitude\": \(long)}"
-        let method = objectID
         
-        taskForPutMethod(method, paramaters: parameters, jsonBody: body) { (result, error) in
-            guard (error == nil) else {
-                completionHandlerForPutStudentLocation(success: false, result: nil, error: error)
-                return
-            }
+        if let student = StudentInformationStore.currentStudent {
+            let first = student.firstName
+            let last = student.lastName
+//            print("Current Student name for put method: \(first) \(last)")
+
             
-            guard let result = result as? [String: AnyObject] else {
-                completionHandlerForPutStudentLocation(success: false, result: nil, error: NSError(domain: "putStudentLocation", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not parse putStudentLocation"]))
-                return
-            }
+            let body = "{\"uniqueKey\": \"\(key)\", \"firstName\": \"\(first)\", \"lastName\": \"\(last)\",\"mapString\": \"\(locationString)\", \"mediaURL\": \"\(mediaURL)\",\"latitude\": \(lat), \"longitude\": \(long)}"
+            let method = objectID
             
-            let update = result["updatedAt"] as? String
-            completionHandlerForPutStudentLocation(success: true, result: update, error: nil)
+            taskForPutMethod(method, paramaters: parameters, jsonBody: body) { (result, error) in
+                guard (error == nil) else {
+                    completionHandlerForPutStudentLocation(success: false, result: nil, error: error)
+                    return
+                }
+                
+                guard let result = result as? [String: AnyObject] else {
+                    completionHandlerForPutStudentLocation(success: false, result: nil, error: NSError(domain: "putStudentLocation", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not parse putStudentLocation"]))
+                    return
+                }
+                
+                let update = result["updatedAt"] as? String
+                completionHandlerForPutStudentLocation(success: true, result: update, error: nil)
+            }
+        } else {
+            print("no current student")
         }
     }
     

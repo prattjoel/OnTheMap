@@ -19,7 +19,7 @@ struct StudentInformation {
     let objectID: String
     var uniqueKey: String
     
-    //MARK: - Student Initializer
+    //MARK: - Current Student Initializer
     init(key: String, lastName: String, firstName: String) {
         self.firstName = firstName
         self.lastName = lastName

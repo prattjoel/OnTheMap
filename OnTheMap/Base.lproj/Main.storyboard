@@ -277,7 +277,7 @@
                                     <action selector="submitLocation:" destination="Nuu-5W-JGx" eventType="touchUpInside" id="M4R-6n-K9R"/>
                                 </connections>
                             </button>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="  Enter URL to Share Here" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="aPU-r4-qc4">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="  Enter URL to Share Here (required)" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="aPU-r4-qc4">
                                 <rect key="frame" x="20" y="211" width="560" height="50"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.59999999999999998" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -292,26 +292,6 @@
                                         <exclude reference="caG-6v-s7V"/>
                                     </mask>
                                 </variation>
-                            </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="  Enter Last Name Here (required)" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="QHT-yt-BPi">
-                                <rect key="frame" x="20" y="151" width="560" height="50"/>
-                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.59999999999999998" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="eeS-Dq-IdH"/>
-                                </constraints>
-                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="  Enter First Name Here (required)" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="KTa-dD-1RN">
-                                <rect key="frame" x="20" y="91" width="560" height="50"/>
-                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.59999999999999998" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="pJD-DF-wVl"/>
-                                </constraints>
-                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add Your Name, Address, and Location" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Ln-aL-vYy">
                                 <rect key="frame" x="122" y="40" width="318" height="21"/>
@@ -333,25 +313,19 @@
                         <color key="backgroundColor" red="0.88235294119999996" green="0.34509803919999998" blue="0.16078431369999999" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="8Ln-aL-vYy" firstAttribute="centerX" secondItem="1rb-SX-t3p" secondAttribute="centerX" constant="-19.5" id="0Zf-7e-qLp"/>
-                            <constraint firstItem="KTa-dD-1RN" firstAttribute="leading" secondItem="1rb-SX-t3p" secondAttribute="leadingMargin" id="4Kz-W8-dvY"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Zhr-Jh-O47" secondAttribute="trailing" id="8VQ-dT-7j7"/>
                             <constraint firstItem="Lrb-HQ-Qaf" firstAttribute="top" secondItem="8Ux-qJ-woZ" secondAttribute="bottom" id="9h1-16-Kwd"/>
                             <constraint firstItem="aUd-pc-rz0" firstAttribute="top" secondItem="Zhr-Jh-O47" secondAttribute="bottom" constant="30" id="DSh-D0-GfA"/>
                             <constraint firstItem="aUd-pc-rz0" firstAttribute="top" secondItem="Rem-KT-tft" secondAttribute="bottom" constant="8" id="Ekg-FS-m1F"/>
                             <constraint firstItem="aUd-pc-rz0" firstAttribute="trailing" secondItem="1rb-SX-t3p" secondAttribute="trailingMargin" id="KiC-RT-zwX"/>
                             <constraint firstItem="Lrb-HQ-Qaf" firstAttribute="trailing" secondItem="1rb-SX-t3p" secondAttribute="trailingMargin" id="N6P-yU-gRg"/>
-                            <constraint firstItem="KTa-dD-1RN" firstAttribute="top" secondItem="8Ln-aL-vYy" secondAttribute="bottom" constant="30" id="NW9-VS-sGY"/>
                             <constraint firstItem="Zhr-Jh-O47" firstAttribute="top" secondItem="aPU-r4-qc4" secondAttribute="bottom" constant="10" id="Ob9-9T-5ls"/>
                             <constraint firstItem="Rem-KT-tft" firstAttribute="centerX" secondItem="1rb-SX-t3p" secondAttribute="centerX" id="PK9-3C-t4U"/>
                             <constraint firstItem="Zhr-Jh-O47" firstAttribute="leading" secondItem="1rb-SX-t3p" secondAttribute="leadingMargin" id="W2D-MO-OLg"/>
-                            <constraint firstItem="QHT-yt-BPi" firstAttribute="top" secondItem="KTa-dD-1RN" secondAttribute="bottom" constant="10" id="ZPB-8g-2Ru"/>
                             <constraint firstItem="aPU-r4-qc4" firstAttribute="leading" secondItem="1rb-SX-t3p" secondAttribute="leadingMargin" id="ZqA-fd-cKT"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="QHT-yt-BPi" secondAttribute="trailing" id="cVN-yq-xIn"/>
-                            <constraint firstItem="aPU-r4-qc4" firstAttribute="top" secondItem="QHT-yt-BPi" secondAttribute="bottom" constant="10" id="hjN-mO-XPt"/>
-                            <constraint firstItem="QHT-yt-BPi" firstAttribute="leading" secondItem="1rb-SX-t3p" secondAttribute="leadingMargin" id="iBM-tk-Sft"/>
                             <constraint firstItem="aUd-pc-rz0" firstAttribute="centerX" secondItem="1rb-SX-t3p" secondAttribute="centerX" id="k0A-pw-AcP"/>
                             <constraint firstItem="aUd-pc-rz0" firstAttribute="leading" secondItem="1rb-SX-t3p" secondAttribute="leadingMargin" id="sm1-jf-2qi"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="KTa-dD-1RN" secondAttribute="trailing" id="ukF-1b-enE"/>
+                            <constraint firstItem="aPU-r4-qc4" firstAttribute="top" secondItem="8Ln-aL-vYy" secondAttribute="bottom" constant="150" id="uAA-R8-OJt"/>
                             <constraint firstItem="Zhr-Jh-O47" firstAttribute="top" secondItem="aPU-r4-qc4" secondAttribute="bottom" constant="10" id="v34-DI-7W5"/>
                             <constraint firstAttribute="trailingMargin" secondItem="aPU-r4-qc4" secondAttribute="trailing" id="wqN-QN-Pd7"/>
                             <constraint firstItem="8Ln-aL-vYy" firstAttribute="top" secondItem="8Ux-qJ-woZ" secondAttribute="bottom" constant="20" id="xae-x8-kT1"/>
@@ -365,9 +339,7 @@
                     </view>
                     <connections>
                         <outlet property="addressTextField" destination="Zhr-Jh-O47" id="BgE-OC-Ros"/>
-                        <outlet property="firstNameTextField" destination="KTa-dD-1RN" id="VUv-Lk-nCE"/>
                         <outlet property="indicatorForGeoCoding" destination="Rem-KT-tft" id="4NL-rv-Xs5"/>
-                        <outlet property="lastNameTextField" destination="QHT-yt-BPi" id="nNu-na-nII"/>
                         <outlet property="submitLocation" destination="aUd-pc-rz0" id="Vaz-xl-et5"/>
                         <outlet property="urlTextField" destination="aPU-r4-qc4" id="4YK-tF-hMJ"/>
                     </connections>

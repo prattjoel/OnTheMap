@@ -17,8 +17,6 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     @IBOutlet weak var indicator: UIActivityIndicatorView!
     
     //MARK: - View Life Cycle
-    
-    
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         let previousAnnotations = mapView.annotations
@@ -28,10 +26,6 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         
         ParseClient.sharedInstance().getStudentLocations({ (success, result, error) in
             if success {
-                
-                performUIUpdatesOnMain({
-                    
-                })
                 
                 if let studentInforesult = result {
                     StudentInformationStore.sharedInstance.studentInformationCollection = studentInforesult
@@ -106,7 +100,6 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                     let url = NSURL(string: toOpen)
                     app.openURL(url!)
                 } else {
-                    print("creating url string")
                     let urlStringWithScheme = "http://\(toOpen)"
                     let url = NSURL(string: urlStringWithScheme)
                     app.openURL(url!)

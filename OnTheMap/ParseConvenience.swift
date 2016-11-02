@@ -91,8 +91,6 @@ extension ParseClient {
             
             let studentLocations = StudentInformation.studentLocationsFromResults(result)
             
-//            print("Current Student locations: \(studentLocations)")
-            
             completionHandlerForGetStudentLocations(success: true, result: studentLocations, error: nil)
         }
     }
@@ -131,9 +129,6 @@ extension ParseClient {
         if let student = StudentInformationStore.currentStudent {
             let first = student.firstName
             let last = student.lastName
-//            print("Current Student name: \(first) \(last)")
-            
-            
             let body = "{\"uniqueKey\": \"\(key)\", \"firstName\": \"\(first)\", \"lastName\": \"\(last)\",\"mapString\": \"\(locationString)\", \"mediaURL\": \"\(mediaURL)\",\"latitude\": \(lat), \"longitude\": \(long)}"
             taskForPostMethod(method, parameters: parameters, jsonBody: body) { (result, error) in
                 guard (error == nil) else {
@@ -161,10 +156,7 @@ extension ParseClient {
         
         if let student = StudentInformationStore.currentStudent {
             let first = student.firstName
-            let last = student.lastName
-//            print("Current Student name for put method: \(first) \(last)")
-
-            
+            let last = student.lastName            
             let body = "{\"uniqueKey\": \"\(key)\", \"firstName\": \"\(first)\", \"lastName\": \"\(last)\",\"mapString\": \"\(locationString)\", \"mediaURL\": \"\(mediaURL)\",\"latitude\": \(lat), \"longitude\": \(long)}"
             let method = objectID
             

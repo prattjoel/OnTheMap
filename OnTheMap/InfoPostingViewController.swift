@@ -71,7 +71,6 @@ class InfoPostingViewController: UIViewController, MKMapViewDelegate {
                         if let region = StudentInformationStore.currentStudentRegion {
                             self.mapView.setRegion(region, animated: true)
                         }
-//                        self.dismissViewControllerAnimated(true, completion: nil)
                     })
                 } else {
                     performUIUpdatesOnMain() {
@@ -138,7 +137,6 @@ class InfoPostingViewController: UIViewController, MKMapViewDelegate {
                     let url = NSURL(string: toOpen)
                     app.openURL(url!)
                 } else {
-                    print("creating url string")
                     let urlStringWithScheme = "https://www.\(toOpen)"
                     let url = NSURL(string: urlStringWithScheme)
                     app.openURL(url!)

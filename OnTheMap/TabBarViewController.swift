@@ -18,7 +18,6 @@ class TabBarViewController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.leftBarButtonItem?.enabled = false
-        
     }
     
     //MARK: - Logout Action
@@ -42,7 +41,6 @@ class TabBarViewController: UITabBarController {
                 print("Error from logout button: \(error)")
             }
         }
-        
     }
     
     //MARK: - Add Location Action
@@ -55,12 +53,9 @@ class TabBarViewController: UITabBarController {
         } else {
             presentInfoPostingView()
         }
-        
     }
     
-    
     //MARK: - Present View Controller Methods
-    
     func presentAlertContoller() {
         let alertContoller = UIAlertController(title: "About to Change Location", message: "Are you sure you want to overwrite your location?", preferredStyle: .Alert)
         let changeLocationAction = UIAlertAction(title: "Overwrite", style: .Default) { (action) in

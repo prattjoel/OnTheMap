@@ -9,6 +9,8 @@
 import Foundation
 
 extension UIViewController {
+    
+    //Present alert controller for app alerts.
     func presentAlertContoller(title: String, message: String) {
         let alertContoller = UIAlertController(title: title, message: message, preferredStyle: .Alert)
         let okAction = UIAlertAction(title: "OK", style: .Default, handler: nil)

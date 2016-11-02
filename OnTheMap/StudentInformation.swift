@@ -15,7 +15,7 @@ struct StudentInformation {
     var latitude: Double?
     var longitude: Double?
     let mapString: String?
-    let mediaURL: String?
+    var mediaURL: String?
     let objectID: String
     var uniqueKey: String
     

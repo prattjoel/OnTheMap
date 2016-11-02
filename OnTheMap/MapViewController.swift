@@ -102,9 +102,18 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     func mapView(mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         if control == view.rightCalloutAccessoryView {
-            let app = UIApplication.sharedApplication()
             if let toOpen = view.annotation?.subtitle! {
-                app.openURL(NSURL(string: toOpen)!)
+                let app = UIApplication.sharedApplication()
+                
+                if toOpen.hasPrefix("http://") || toOpen.hasPrefix("https://") {
+                    let url = NSURL(string: toOpen)
+                    app.openURL(url!)
+                } else {
+                    print("creating url string")
+                    let urlStringWithScheme = "http://\(toOpen)"
+                    let url = NSURL(string: urlStringWithScheme)
+                    app.openURL(url!)
+                }
             }
         }
     }

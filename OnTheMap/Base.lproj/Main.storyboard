@@ -309,6 +309,13 @@
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="Rem-KT-tft">
                                 <rect key="frame" x="290" y="323" width="20" height="20"/>
                             </activityIndicatorView>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="BMe-E9-OBg">
+                                <rect key="frame" x="150" y="409" width="300" height="175"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="175" id="S3z-yo-j6i"/>
+                                    <constraint firstAttribute="width" constant="300" id="oOR-gw-zjm"/>
+                                </constraints>
+                            </mapView>
                         </subviews>
                         <color key="backgroundColor" red="0.88235294119999996" green="0.34509803919999998" blue="0.16078431369999999" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
@@ -317,12 +324,14 @@
                             <constraint firstItem="Lrb-HQ-Qaf" firstAttribute="top" secondItem="8Ux-qJ-woZ" secondAttribute="bottom" id="9h1-16-Kwd"/>
                             <constraint firstItem="aUd-pc-rz0" firstAttribute="top" secondItem="Zhr-Jh-O47" secondAttribute="bottom" constant="30" id="DSh-D0-GfA"/>
                             <constraint firstItem="aUd-pc-rz0" firstAttribute="top" secondItem="Rem-KT-tft" secondAttribute="bottom" constant="8" id="Ekg-FS-m1F"/>
+                            <constraint firstItem="BMe-E9-OBg" firstAttribute="centerX" secondItem="1rb-SX-t3p" secondAttribute="centerX" id="Fkg-7V-Oho"/>
                             <constraint firstItem="aUd-pc-rz0" firstAttribute="trailing" secondItem="1rb-SX-t3p" secondAttribute="trailingMargin" id="KiC-RT-zwX"/>
                             <constraint firstItem="Lrb-HQ-Qaf" firstAttribute="trailing" secondItem="1rb-SX-t3p" secondAttribute="trailingMargin" id="N6P-yU-gRg"/>
                             <constraint firstItem="Zhr-Jh-O47" firstAttribute="top" secondItem="aPU-r4-qc4" secondAttribute="bottom" constant="10" id="Ob9-9T-5ls"/>
                             <constraint firstItem="Rem-KT-tft" firstAttribute="centerX" secondItem="1rb-SX-t3p" secondAttribute="centerX" id="PK9-3C-t4U"/>
                             <constraint firstItem="Zhr-Jh-O47" firstAttribute="leading" secondItem="1rb-SX-t3p" secondAttribute="leadingMargin" id="W2D-MO-OLg"/>
                             <constraint firstItem="aPU-r4-qc4" firstAttribute="leading" secondItem="1rb-SX-t3p" secondAttribute="leadingMargin" id="ZqA-fd-cKT"/>
+                            <constraint firstItem="BMe-E9-OBg" firstAttribute="top" secondItem="aUd-pc-rz0" secondAttribute="bottom" constant="8" id="jfA-4C-StA"/>
                             <constraint firstItem="aUd-pc-rz0" firstAttribute="centerX" secondItem="1rb-SX-t3p" secondAttribute="centerX" id="k0A-pw-AcP"/>
                             <constraint firstItem="aUd-pc-rz0" firstAttribute="leading" secondItem="1rb-SX-t3p" secondAttribute="leadingMargin" id="sm1-jf-2qi"/>
                             <constraint firstItem="aPU-r4-qc4" firstAttribute="top" secondItem="8Ln-aL-vYy" secondAttribute="bottom" constant="150" id="uAA-R8-OJt"/>
@@ -340,6 +349,7 @@
                     <connections>
                         <outlet property="addressTextField" destination="Zhr-Jh-O47" id="BgE-OC-Ros"/>
                         <outlet property="indicatorForGeoCoding" destination="Rem-KT-tft" id="4NL-rv-Xs5"/>
+                        <outlet property="mapView" destination="BMe-E9-OBg" id="OEA-GS-d4q"/>
                         <outlet property="submitLocation" destination="aUd-pc-rz0" id="Vaz-xl-et5"/>
                         <outlet property="urlTextField" destination="aPU-r4-qc4" id="4YK-tF-hMJ"/>
                     </connections>

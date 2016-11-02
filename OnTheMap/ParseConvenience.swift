@@ -34,6 +34,10 @@ extension ParseClient {
                     let studentLong = coordinate.longitude
                     let region = MKCoordinateRegion(center: coordinate, span:MKCoordinateSpan(latitudeDelta: 1, longitudeDelta: 1))
                     StudentInformationStore.currentStudentRegion = region
+                    StudentInformationStore.currentStudent!.latitude = studentLat
+                    StudentInformationStore.currentStudent!.longitude = studentLong
+                    StudentInformationStore.currentStudent!.mediaURL = url
+                    
                     
                     self.addUserLocation(addressString: address, mediaURLString: url, latitude: studentLat, longitude: studentLong, completionHandlerForAdduserLocation: completionHandlerForGeocoding)
                     

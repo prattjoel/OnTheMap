@@ -61,13 +61,13 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                     }
                 } else {
                     performUIUpdatesOnMain({
-                        self.presentAlertContoller("Could not find student locations")
+                        self.presentAlertContoller("No Student Locations", message: "Could not find student locations")
                     })
                     
                 }
             } else {
                 performUIUpdatesOnMain() {
-                    self.presentAlertContoller("Could not download student locations")
+                    self.presentAlertContoller("No Student Locations", message: "Could not download student locations")
                 }
             }
         })
@@ -79,16 +79,6 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             StudentInformationStore.currentStudentRegion = nil
         }
 
-    }
-    
-    //MARK: - Alert Method
-    func presentAlertContoller(message: String) {
-        let alertContoller = UIAlertController(title: "No Student Locations", message: message, preferredStyle: .Alert)
-        let okAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
-        
-        alertContoller.addAction(okAction)
-        
-        presentViewController(alertContoller, animated: true, completion: nil)
     }
     
     //MARK: - MapView Delegate Methods

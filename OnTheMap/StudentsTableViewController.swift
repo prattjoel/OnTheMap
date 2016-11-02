@@ -22,7 +22,7 @@ class StudentsTableViewController: UITableViewController {
     //MARK: - TableView Delegate Methods
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if StudentInformationStore.sharedInstance.studentInformationCollection.count == 0 {
-            presentAlertContoller("Could not find student locations")
+            presentAlertContoller("Unable to Login", message: "Could not find student locations")
         }
         return StudentInformationStore.sharedInstance.studentInformationCollection.count
     }
@@ -53,20 +53,5 @@ class StudentsTableViewController: UITableViewController {
         } else {
             print("no url provided")
         }
-    }
-    
-    //MARK: - Alert Method
-    func presentAlertContoller(message: String) {
-        let alertContoller = UIAlertController(title: "No Student Locations", message: message, preferredStyle: .Alert)
-        let okAction = UIAlertAction(title: "OK", style: .Default, handler: {
-            action in
-            
-            self.dismissViewControllerAnimated(true, completion: nil)
-        })
-        
-        alertContoller.addAction(okAction)
-        
-        presentViewController(alertContoller, animated: true, completion: nil)
-        
     }
 }

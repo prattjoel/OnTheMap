@@ -35,7 +35,7 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
                     self.goToMapView()
                 } else {
                     print(error)
-                    self.presentAlertContoller("Unable to login with Facebook")
+                    self.presentAlertContoller("Unable to Login", message: "Unable to login with Facebook")
                     
                 }
             })
@@ -77,10 +77,10 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
                         if let statusCode = code {
                             print("localized description: \n \(statusCode)")
                             if statusCode == "403" {
-                                self.presentAlertContoller("Login credentials invalid")
+                                self.presentAlertContoller("Unable to Login", message: "Login credentials invalid")
                                 
                             } else {
-                                self.presentAlertContoller("Error logging in")
+                                self.presentAlertContoller("Unable to Login", message: "No connection found.  Please try again later")
                                 print("login controller: \n \(error)")
                             }
                         }
@@ -91,7 +91,7 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
         } else {
             hideActivityIndicator(true)
             setUIEnabled(true)
-            self.presentAlertContoller("Please enter username and password")
+            self.presentAlertContoller("Unable to Login", message: "Please enter username and password")
         }
     }
     
@@ -141,24 +141,13 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
         }
     }
     
-    func presentAlertContoller(message: String) {
-        let alertContoller = UIAlertController(title: "Unable to Login", message: message, preferredStyle: .Alert)
-        let okAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
-        
-        alertContoller.addAction(okAction)
-        
-        presentViewController(alertContoller, animated: true, completion: nil)
-        
-    }
-    
-    
     // MARK: - Facebook Delegate Methods
     
     func loginButton(loginButton: FBSDKLoginButton!, didCompleteWithResult result: FBSDKLoginManagerLoginResult!, error: NSError!) {
         
         if ((error) != nil) {
             // Process error
-            self.presentAlertContoller("Unable to login to Facebook.  Try logging in with Udacity credentials")
+            self.presentAlertContoller("Unable to Login", message: "Unable to login to Facebook.  Try logging in with Udacity credentials")
             hideActivityIndicator(true)
             setUIEnabled(true)
             
@@ -173,7 +162,7 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
                     self.goToMapView()
                 } else {
                     print(error)
-                    self.presentAlertContoller("Unable verify user with facebook.  Try logging in with Udacity credentials")
+                    self.presentAlertContoller("Unable to Login", message: "Unable verify user with facebook.  Try logging in with Udacity credentials")
                     
                 }
             })

@@ -50,40 +50,27 @@ class InfoPostingViewController: UIViewController {
                         if let errorMessage = error {
                             let errorCode = errorMessage._code
                             if errorCode == 8 {
-                                self.presentAlertContoller("Error finding student location: \(self.addressTextField.text!).  Please re-enter a valid address")
+                                self.presentAlertContoller("Unable Add Location", message: "Error finding student location: \(self.addressTextField.text!).  Please re-enter a valid address")
                                 self.clearTextFields()
                             } else {
-                                self.presentAlertContoller("Error posting student location to map.  Please try again later")
+                                self.presentAlertContoller("Unable Add Location", message: "Error posting student location to map.  Please try again later")
                                 self.clearTextFields()
                             }
                         }
                         
                     }
-                    
-                    
                 }
             })
         } else {
             self.indicatorForGeoCoding.stopAnimating()
             self.indicatorForGeoCoding.hidden = true
-            presentAlertContoller("Please enter name, address and url")
+            presentAlertContoller("Unable Add Location", message: "Please enter name, address and url")
         }
     }
     
     //MARK: - Cancel Action
     @IBAction func cancelInfoPostingView(sender: AnyObject) {
         self.dismissViewControllerAnimated(true, completion: nil)
-    }
-    
-    //MARK: - Alert Method
-    func presentAlertContoller(message: String) {
-        let alertContoller = UIAlertController(title: "Unable Add Location", message: message, preferredStyle: .Alert)
-        let okAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
-        
-        alertContoller.addAction(okAction)
-        
-        presentViewController(alertContoller, animated: true, completion: nil)
-        
     }
     
     //MARK: - UI Reset Method

@@ -69,7 +69,8 @@ extension ParseClient {
     func getStudentLocations(completionHandlerForGetStudentLocations: (success: Bool, result: [StudentInformation]?, error: ErrorType?) -> Void) {
         
         let parameters = [
-            StudentLocationParameters.MaxStudentLocations: "100"
+            StudentLocationParameters.MaxStudentLocations: "100",
+            StudentLocationParameters.ListOrder: "-updatedAt"
         ]
         let method = ""
         

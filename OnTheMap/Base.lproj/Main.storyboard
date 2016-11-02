@@ -211,11 +211,11 @@
             </objects>
             <point key="canvasLocation" x="504" y="1837"/>
         </scene>
-        <!--Student Locations-->
+        <!--On The Map-->
         <scene sceneID="FrZ-v7-ObV">
             <objects>
                 <tabBarController storyboardIdentifier="tabBarController" id="Hrw-Er-RiB" customClass="TabBarViewController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
-                    <navigationItem key="navigationItem" title="Student Locations" id="FCb-tA-jqz">
+                    <navigationItem key="navigationItem" title="On The Map" id="FCb-tA-jqz">
                         <barButtonItem key="leftBarButtonItem" title="Logout" id="uEa-L7-0NL">
                             <connections>
                                 <action selector="logoutOfUdacity:" destination="Hrw-Er-RiB" id="AJJ-dg-dCl"/>

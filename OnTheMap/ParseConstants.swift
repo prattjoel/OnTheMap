@@ -42,7 +42,7 @@ extension ParseClient {
     struct StudentLocationParameters {
         static let MaxStudentLocations = "limit"
         static let Skip = "skip"
-        static let ChangeListOrder = "order"
+        static let ListOrder = "order"
         static let ObjectID = "objectId"
         static let singleStudent = "where"
     }

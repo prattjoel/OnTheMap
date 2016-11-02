@@ -101,7 +101,6 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
         loginButton.enabled = enabled
         fbLoginButton.enabled = enabled
         
-        // adjust login button alpha
         if enabled {
             loginButton.alpha = 1.0
             usernameTextField.alpha = 1.0
@@ -170,9 +169,6 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
     func loginButtonDidLogOut(loginButton: FBSDKLoginButton!) {
         print("User Logged Out")
     }
-    
-    
-    
 }
 
 

@@ -14,20 +14,23 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     
     @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var indicator: UIActivityIndicatorView!
     
     //MARK: - View Life Cycle
     
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        
+        let previousAnnotations = mapView.annotations
+        mapView.removeAnnotations(previousAnnotations)
+        indicator.hidesWhenStopped = true
+        indicator.startAnimating()
         
         ParseClient.sharedInstance().getStudentLocations({ (success, result, error) in
             if success {
                 
                 performUIUpdatesOnMain({
-                    let previousAnnotations = self.mapView.annotations
-                    self.mapView.removeAnnotations(previousAnnotations)
+                    
                 })
                 
                 if let studentInforesult = result {
@@ -58,6 +61,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                     
                     performUIUpdatesOnMain(){
                         self.mapView.addAnnotations(annotations)
+                        self.indicator.stopAnimating()
                     }
                 } else {
                     performUIUpdatesOnMain({
@@ -71,13 +75,6 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                 }
             }
         })
-        
-        if let studentRegion = StudentInformationStore.currentStudentRegion {
-            
-            self.mapView.setRegion(studentRegion, animated: true)
-            
-            StudentInformationStore.currentStudentRegion = nil
-        }
 
     }
     

@@ -44,8 +44,6 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
             fbLoginButton.readPermissions = ["public_profile", "email", "user_friends"]
             fbLoginButton.delegate = self
         }
-        
-        
     }
     
     override func viewDidLoad() {
@@ -136,8 +134,8 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
             self.usernameTextField.text = ""
             self.passwordTextField.text = ""
             self.hideActivityIndicator(true)
-            let controller = self.storyboard!.instantiateViewControllerWithIdentifier("tabBarController") as! UITabBarController
-            self.navigationController?.pushViewController(controller, animated: true)
+            let controller = self.storyboard!.instantiateViewControllerWithIdentifier("OnTheMapNavController") as! UINavigationController
+            self.presentViewController(controller, animated: true, completion: nil)
         }
     }
     

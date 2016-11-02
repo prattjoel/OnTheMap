@@ -95,7 +95,7 @@ class InfoPostingViewController: UIViewController, MKMapViewDelegate {
         } else {
             self.indicatorForGeoCoding.stopAnimating()
             self.indicatorForGeoCoding.hidden = true
-            presentAlertContoller("Unable Add Location", message: "Please enter name, address and url")
+            presentAlertContoller("Unable Add Location", message: "Please enter address and url")
         }
     }
     

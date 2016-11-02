@@ -17,8 +17,8 @@ class TabBarViewController: UITabBarController {
     //MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.leftBarButtonItem?.enabled = false
         
-        self.navigationItem.leftBarButtonItem?.enabled = false
     }
     
     //MARK: - Logout Action
@@ -32,7 +32,7 @@ class TabBarViewController: UITabBarController {
                 performUIUpdatesOnMain({
                     self.fbLoginManager.logOut()
                     self.showActivityIndicator(false)
-                    self.navigationController?.popToRootViewControllerAnimated(true)
+                    self.dismissViewControllerAnimated(true, completion: nil)
                 })
             } else {
                 performUIUpdatesOnMain({

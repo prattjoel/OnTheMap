@@ -16,7 +16,6 @@ class StudentsTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
-        
     }
     
     //MARK: - TableView Delegate Methods
